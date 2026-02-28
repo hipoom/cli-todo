@@ -1,0 +1,158 @@
+plugins {
+    id 'java'
+    id 'org.jetbrains.kotlin.jvm' version '1.6.0'
+    id 'application'
+}
+
+// 设置 build 目录
+File localProperties = new File(projectDir, "local.properties")
+if (localProperties.exists()) {
+    FileInputStream fis = new FileInputStream(localProperties)
+    Properties properties = new Properties()
+    properties.load(fis)
+
+    String buildDirConfig = properties.getProperty("build.dir")
+
+    if (buildDirConfig != null && !buildDirConfig.isEmpty()) {
+        buildDir = new File(buildDirConfig)
+    }
+    fis.close()
+}
+
+
+group = 'com.hipoom'
+version = '0.0.26'
+
+// 指定主类
+application {
+    mainClass = 'com.hipoom.cli.todo.Main'
+}
+
+// 配置 JAR 打包任务
+jar {
+    manifest {
+        attributes 'Main-Class': application.mainClass
+    }
+    // 如果需要将所有依赖打包到 JAR 中，可以使用以下配置
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+
+tasks.register('CopyJar') {
+    doLast {
+        // 读取是否需要复制的开关，如果不需要复制，则返回
+        File properties = new File(projectDir, "local.properties")
+        if (properties.exists()) {
+            FileInputStream fis = new FileInputStream(localProperties)
+            Properties p = new Properties()
+            p.load(fis)
+
+            String needCopyJar = p.getProperty("need.copy.jar")
+
+            if (needCopyJar != null && !needCopyJar.isEmpty()) {
+                if (needCopyJar != "true") {
+                    println("needCopyJar: " + needCopyJar)
+                    fis.close()
+                    return
+                }
+            }
+            fis.close()
+        }
+
+        File libs = new File(buildDir, "libs")
+        File[] jars = libs.listFiles(new FileFilter() {
+            @Override
+            boolean accept(File pathname) {
+                pathname.name.endsWith(".jar")
+            }
+        })
+
+        jars = jars.sort {
+            it.lastModified()
+        }
+        File targetJar = jars[jars.length - 1]
+
+        // 复制到 NAS 上
+        File dstDir = new File("\\\\Moolv-Nas\\home\\ZHP\\Workspace\\Todo")
+//        copy {
+//            from targetJar
+//            into dstDir
+//            rename {
+//                "todo-latest.jar"
+//            }
+//        }
+
+        // 复制到 release 目录
+        println("version: " + version)
+        dstDir = new File(projectDir, "release" + File.separator + version)
+        println("dstDir: " + dstDir.absolutePath)
+        copy {
+            from targetJar
+            into dstDir
+            rename {
+                "todo.jar"
+            }
+        }
+    }
+}
+
+jar.finalizedBy CopyJar
+
+
+apply from: "publish-jar-2-local-maven.gradle"
+
+repositories {
+    mavenCentral()
+    google()
+
+    maven {
+        url "C:\\Workspace\\local_maven"
+    }
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+
+    // JLine - 命令行交互库，支持命令历史、自动补全等
+    implementation 'org.jline:jline:3.21.0'
+    implementation 'org.jline:jline-terminal-jansi:3.21.0'
+
+    // Gson
+    implementation('com.google.code.gson:gson:2.9.0')
+    // kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    // 命令行参数解析
+    implementation 'commons-cli:commons-cli:1.9.0'
+    // Nonnull、Nullable
+    implementation "androidx.annotation:annotation:1.4.0"
+
+    // files
+    implementation('com.hipoom:files:0.0.4')
+    // files-kotlinx
+    implementation('com.hipoom:files-kotlinx:0.0.2')
+    // holder
+    implementation "com.hipoom:holder:0.0.9"
+
+    // 日历-fatigue
+    implementation "com.hipoom:fatigue:0.0.6"
+    // 文件夹管理
+    implementation "com.hipoom:catalogue:0.0.2"
+    // cli-core
+    implementation('com.hipoom.cli:core:0.0.10')
+    // KV 存储
+    implementation "com.hipoom.cli:kvstorage:0.0.2"
+    // Workspace
+    implementation "com.hipoom.cli:workspace:0.0.6"
+    // 命令行应用脚手架
+    implementation "com.hipoom.cli:scaffold:0.0.9"
+    // 插件
+    implementation "com.hipoom.cli:plugin:0.0.3"
+}
+
+test {
+    useJUnitPlatform()
+}
