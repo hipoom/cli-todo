@@ -21,7 +21,6 @@ gradle-app.setting
 .classpath
 .idea/
 bin/
-.trae/
 SKILL.md
 local.properties
 release/
