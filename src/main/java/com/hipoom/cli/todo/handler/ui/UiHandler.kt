@@ -51,7 +51,6 @@ class UiHandler : ApacheCliOptionHandler() {
         )
 
         printLine(msg = "1. 亮色模式: ", newLine = false)
-        printer.print(4, Int.MAX_VALUE, "特殊文字无背景", )
 
         return true
     }

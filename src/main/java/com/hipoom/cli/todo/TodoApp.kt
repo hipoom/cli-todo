@@ -27,7 +27,6 @@ import com.hipoom.cli.todo.handler.developer.DevelopHandler
 import com.hipoom.cli.todo.handler.expand.ExpandHandler
 import com.hipoom.cli.todo.handler.find.FindHandler
 import com.hipoom.cli.todo.handler.label.LabelHandler
-import com.hipoom.cli.todo.handler.owner.OwnerHandler
 import com.hipoom.cli.todo.handler.path.PathHandler
 import com.hipoom.cli.todo.handler.time.TimeHandler
 import com.hipoom.cli.todo.handler.owner.OwnerHandler
@@ -37,6 +36,7 @@ import com.hipoom.cli.todo.handler.show.ShowHandler
 import com.hipoom.cli.todo.handler.view.ViewHandler
 import com.hipoom.cli.todo.handler.template.TemplateHandler
 import com.hipoom.cli.todo.handler.upgrade.UpgradeHandler
+import com.hipoom.cli.workspace.Workspace
 import com.hipoom.cli.workspace.WorkspaceContext
 
 
