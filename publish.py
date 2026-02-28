@@ -49,11 +49,12 @@ def run_build():
 
 
 def generate_version_json(output_path: str, version: str, version_code: int, release_notes: str):
+    download_url = f"https://github.com/hipoom/cli-todo/releases/download/v{version}/todo.jar"
     version_info = {
         "version": version,
         "versionCode": version_code,
         "releaseDate": datetime.now().strftime("%Y-%m-%d"),
-        "downloadUrl": "",
+        "downloadUrl": download_url,
         "releaseNotes": release_notes
     }
     with open(output_path, 'w', encoding='utf-8') as f:
