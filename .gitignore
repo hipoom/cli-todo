@@ -24,3 +24,4 @@ bin/
 SKILL.md
 local.properties
 release/
+.vscode/settings.json
