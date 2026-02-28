@@ -38,6 +38,18 @@ def update_build_gradle(build_gradle_path: str, new_version: str):
         f.write(new_content)
 
 
+def update_version_kt(version_kt_path: str, new_version: str):
+    with open(version_kt_path, 'r', encoding='utf-8') as f:
+        content = f.read()
+    new_content = re.sub(
+        r'val VERSION = "\d+\.\d+\.\d+"',
+        f'val VERSION = "{new_version}"',
+        content
+    )
+    with open(version_kt_path, 'w', encoding='utf-8') as f:
+        f.write(new_content)
+
+
 def run_build():
     result = subprocess.run(
         [f'gradlew', 'jar'],
@@ -64,6 +76,7 @@ def generate_version_json(output_path: str, version: str, version_code: int, rel
 def main():
     script_dir = Path(__file__).parent
     build_gradle_path = script_dir / 'build.gradle'
+    version_kt_path = script_dir / 'src' / 'main' / 'java' / 'com' / 'hipoom' / 'cli' / 'todo' / 'VERSION.kt'
     version_json_path = script_dir / '.documents' / 'latest_version.json'
     
     print("Reading current version from build.gradle...")
@@ -80,6 +93,9 @@ def main():
     
     print(f"Updating build.gradle to version {new_version}...")
     update_build_gradle(str(build_gradle_path), new_version)
+    
+    print(f"Updating VERSION.kt to version {new_version}...")
+    update_version_kt(str(version_kt_path), new_version)
     
     print("Running build...")
     run_build()
