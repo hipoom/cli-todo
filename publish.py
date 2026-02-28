@@ -21,9 +21,12 @@ def increment_version(version: str) -> str:
     return '.'.join(parts)
 
 
+from functools import reduce
+
+
 def calculate_version_code(version: str) -> int:
-    parts = version.split('.')
-    return int(parts[0]) * 10000 + int(parts[1]) * 100 + int(parts[2])
+    parts = [int(p) for p in version.split('.')]
+    return reduce(lambda acc, i: acc * 100 + i, parts)
 
 
 def update_build_gradle(build_gradle_path: str, new_version: str):
@@ -42,8 +45,8 @@ def update_version_kt(version_kt_path: str, new_version: str):
     with open(version_kt_path, 'r', encoding='utf-8') as f:
         content = f.read()
     new_content = re.sub(
-        r'val VERSION = "\d+\.\d+\.\d+"',
-        f'val VERSION = "{new_version}"',
+        r'const val VERSION_NAME = "\d+\.\d+\.\d+"',
+        f'const val VERSION_NAME = "{new_version}"',
         content
     )
     with open(version_kt_path, 'w', encoding='utf-8') as f:
