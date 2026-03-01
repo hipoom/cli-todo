@@ -499,12 +499,14 @@ fun List<TreeModeRow>.show(textStyle: TextStyle? = null) {
         forEach { row ->
             val line = (row.id + " " + row.status + row.contentWithIndent + row.commentSubscript() + " " + row.collapseStatus + " " + row.owners + " " + row.labels + " " + row.deadline)
             printLine(line)
+
+            val commentIndent = line.indexOf("-- ") + 3
             
             // 打印评论
             if (!row.item.comments.isNullOrEmpty()) {
-                row.item.comments?.forEach { comment ->
+                row.item.comments?.forEachIndexed { index, comment ->
                     val indent = row.indent_and_connector.length
-                    printer.printLine(indent = indent, text = comment, style = Styles.getCurrentStyle().getCommentBlockStyle())
+                    printer.printLine(indent = commentIndent, text = "[${index + 1}] $comment", style = Styles.getCurrentStyle().getCommentBlockStyle())
                 }
             }
 
@@ -543,18 +545,14 @@ fun List<TreeModeRow>.show(textStyle: TextStyle? = null) {
 
         val commentIndent = line.indexOf("-- ") + 3
 
-        val dotTextStyle = TextStyleBuilder()
-            .color(Styles.getCurrentStyle().hintTextColor)
-            .build()
+        printLine(line)
 
         // 打印评论
         if (!row.item.comments.isNullOrEmpty()) {
-            row.item.comments?.forEach { comment ->
-                printer.print(indent = commentIndent - 4, text = ".   ", maxWidth = 1000, style = dotTextStyle)
-                printer.printLine(indent = 0, text = comment, style = Styles.getCurrentStyle().getCommentBlockStyle())
+            row.item.comments?.forEachIndexed { index, comment ->
+                printer.printLine(indent = commentIndent, text = "[${index + 1}] $comment", style = Styles.getCurrentStyle().getCommentBlockStyle())
             }
         }
-        printLine(line)
     }
 }
 
@@ -634,7 +632,7 @@ fun WorkspaceContext.showPinnedItems(items: List<Item>?) {
         it.toSimpleRow()
     }.show(
         textStyle = TextStyleBuilder()
-            .backgroundColor(200, 200, 200)
+            .backgroundColor(Styles.getCurrentStyle().pinBackgroundColor)
             .build()
     )
     printLine("-----")

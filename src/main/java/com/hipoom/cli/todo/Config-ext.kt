@@ -209,6 +209,25 @@ object Show {
         }
         return Colors.Bits24.createForeground(splits[0], splits[1], splits[2])
     }
+
+    fun getCurrentStyle(): String? {
+        val style = show.getString("currentStyle", "")
+        return if (style.isEmpty()) null else style
+    }
+
+    fun setCurrentStyle(styleName: String) {
+        var config = show.configs?.find { it.name == "currentStyle" }
+        if (config == null) {
+            config = com.hipoom.cli.scaffold.config.ConfigGroup(
+                name = "currentStyle",
+                desc = "当前选择的样式名称",
+                value = styleName
+            )
+            show.configs?.add(config)
+        } else {
+            config.value = styleName
+        }
+    }
 }
 
 object Launch {

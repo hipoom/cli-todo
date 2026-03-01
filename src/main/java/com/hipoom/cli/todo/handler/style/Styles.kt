@@ -14,7 +14,7 @@ object Styles {
         override val pinTextColor: Color? = null
         override val pinBackgroundColor: Color? = null
         override val secondaryTextColor: Color = Colors.Bits24.createForeground(100, 100, 100)
-        override val commentBackgroundColor: Color = Colors.Bits24.createBackground(250, 250, 250)
+        override val commentBackgroundColor: Color? = Colors.Bits24.createBackground(250, 250, 250)
         override val hintTextColor: Color = Colors.Bits24.createForeground(200, 200, 200)
     }
 
@@ -22,12 +22,18 @@ object Styles {
         override val pinTextColor: Color? = null
         override val pinBackgroundColor: Color? = null
         override val secondaryTextColor: Color = Colors.Bits24.createForeground(230, 230, 230)
-        override val commentBackgroundColor: Color = Colors.Bits24.createBackground(50, 50, 50)
+        override val commentBackgroundColor: Color? = Colors.Bits24.createBackground(50, 50, 50)
         override val hintTextColor: Color = Colors.Bits24.createForeground(128, 128, 128)
     }
 
     fun getCurrentStyle(): Style {
-        return light
+        return object : Style {
+            override val pinTextColor: Color? = null
+            override val pinBackgroundColor: Color? = com.hipoom.cli.todo.Configs.show.getPinBackgroundColor()
+            override val secondaryTextColor: Color? = com.hipoom.cli.todo.Configs.show.commentStyle.getTextColor()
+            override val commentBackgroundColor: Color? = com.hipoom.cli.todo.Configs.show.commentStyle.getBackgroundColor()
+            override val hintTextColor: Color? = null
+        }
     }
 
 }
