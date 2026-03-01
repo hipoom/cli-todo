@@ -19,8 +19,6 @@ public class Main {
     };
 
     public static void main(String[] args) {
-        StyleInitializer.INSTANCE.doInit();
-
         new TodoApp().run(new String[] { "shell" });
     }
 

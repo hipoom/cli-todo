@@ -31,7 +31,7 @@ object StyleInitializer {
         printer.print(indent = 3, maxWidth = Int.MAX_VALUE, text = "浅色配色适用于浅色的终端/控制台。\n", style = null)
         printer.print(indent = 3, maxWidth = Int.MAX_VALUE, text = "这是一条备注。", style = TextStyle(
             backgroundColor = Styles.light.commentBackgroundColor,
-            color = Styles.light.commentTextColor,
+            color = Styles.light.secondaryTextColor,
             bold = false,
             underline = false
         ))
@@ -41,7 +41,7 @@ object StyleInitializer {
         printer.printLine(indent = 3, text = "深色配色适用于深色的终端/控制台。")
         printer.print(indent = 3, maxWidth = Int.MAX_VALUE, text = "这是一条备注。", style = TextStyle(
             backgroundColor = Styles.dark.commentBackgroundColor,
-            color = Styles.dark.commentTextColor,
+            color = Styles.dark.secondaryTextColor,
             bold = false,
             underline = false
         ))

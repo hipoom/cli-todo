@@ -7,7 +7,6 @@ import com.hipoom.cli.todo.getFocusId
 import com.hipoom.cli.todo.handler.show.show
 import com.hipoom.cli.todo.itemDao
 import com.hipoom.cli.todo.printLine
-import com.hipoom.cli.todo.saveConfig
 import com.hipoom.cli.todo.setFocusId
 import com.hipoom.cli.workspace.WorkspaceContext
 import org.apache.commons.cli.CommandLine

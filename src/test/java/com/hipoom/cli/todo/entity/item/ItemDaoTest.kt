@@ -18,9 +18,8 @@ class ItemDaoTest {
         val dao = ItemDao(file.absolutePath)
 
 
-        val item = Item(
-            content = "第一个"
-        )
+        val item = Item()
+        item.content = "第一个"
         dao.insert(item)
 
         println()

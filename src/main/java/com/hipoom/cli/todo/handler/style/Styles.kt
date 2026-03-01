@@ -13,15 +13,21 @@ object Styles {
     val light = object : Style {
         override val pinTextColor: Color? = null
         override val pinBackgroundColor: Color? = null
-        override val commentTextColor: Color = Colors.Bits24.createForeground(50, 50, 50)
-        override val commentBackgroundColor: Color = Colors.Bits24.createBackground(230, 230, 230)
+        override val secondaryTextColor: Color = Colors.Bits24.createForeground(100, 100, 100)
+        override val commentBackgroundColor: Color = Colors.Bits24.createBackground(250, 250, 250)
+        override val hintTextColor: Color = Colors.Bits24.createForeground(200, 200, 200)
     }
 
     val dark = object : Style {
         override val pinTextColor: Color? = null
         override val pinBackgroundColor: Color? = null
-        override val commentTextColor: Color = Colors.Bits24.createForeground(230, 230, 230)
+        override val secondaryTextColor: Color = Colors.Bits24.createForeground(230, 230, 230)
         override val commentBackgroundColor: Color = Colors.Bits24.createBackground(50, 50, 50)
+        override val hintTextColor: Color = Colors.Bits24.createForeground(128, 128, 128)
+    }
+
+    fun getCurrentStyle(): Style {
+        return light
     }
 
 }
