@@ -2,6 +2,8 @@ package com.hipoom.cli.todo.handler.style
 
 import com.hipoom.cli.core.ui.palette.Color
 import com.hipoom.cli.core.ui.palette.Colors
+import com.hipoom.cli.todo.Configs
+import com.hipoom.cli.todo.handler.style.pojo.Style
 
 /**
  * @author ZhengHaiPeng
@@ -10,29 +12,31 @@ import com.hipoom.cli.core.ui.palette.Colors
  */
 object Styles {
 
-    val light = object : Style {
-        override val pinTextColor: Color? = null
-        override val pinBackgroundColor: Color? = null
-        override val secondaryTextColor: Color = Colors.Bits24.createForeground(100, 100, 100)
-        override val commentBackgroundColor: Color? = Colors.Bits24.createBackground(250, 250, 250)
-        override val hintTextColor: Color = Colors.Bits24.createForeground(200, 200, 200)
-    }
+    val light = Style(
+        pinTextColor = null,
+        pinBackgroundColor = null,
+        secondaryTextColor = Colors.Bits24.createForeground(100, 100, 100),
+        commentBackgroundColor = Colors.Bits24.createBackground(250, 250, 250),
+        hintTextColor = Colors.Bits24.createForeground(200, 200, 200)
+    )
 
-    val dark = object : Style {
-        override val pinTextColor: Color? = null
-        override val pinBackgroundColor: Color? = null
-        override val secondaryTextColor: Color = Colors.Bits24.createForeground(230, 230, 230)
-        override val commentBackgroundColor: Color? = Colors.Bits24.createBackground(50, 50, 50)
-        override val hintTextColor: Color = Colors.Bits24.createForeground(128, 128, 128)
-    }
+    val dark = Style(
+        pinTextColor = null,
+        pinBackgroundColor = null,
+        secondaryTextColor = Colors.Bits24.createForeground(230, 230, 230),
+        commentBackgroundColor = Colors.Bits24.createBackground(50, 50, 50),
+        hintTextColor = Colors.Bits24.createForeground(128, 128, 128)
+    )
 
     fun getCurrentStyle(): Style {
-        return object : Style {
-            override val pinTextColor: Color? = null
-            override val pinBackgroundColor: Color? = com.hipoom.cli.todo.Configs.show.getPinBackgroundColor()
-            override val secondaryTextColor: Color? = com.hipoom.cli.todo.Configs.show.commentStyle.getTextColor()
-            override val commentBackgroundColor: Color? = com.hipoom.cli.todo.Configs.show.commentStyle.getBackgroundColor()
-            override val hintTextColor: Color? = null
+        val styleName = Configs.show.getCurrentStyle()
+        return when (styleName) {
+            "light" -> light
+            "dark" -> dark
+            else -> {
+                // 默认返回 light 样式
+                light
+            }
         }
     }
 

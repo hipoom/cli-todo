@@ -13,6 +13,7 @@ import com.hipoom.cli.todo.handler.view.getCurrentVirtualView
 import com.hipoom.cli.todo.isQuickMode
 import com.hipoom.cli.todo.printLine
 import com.hipoom.cli.todo.processData
+import com.hipoom.cli.todo.reader
 import com.hipoom.cli.todo.setFocusId
 import com.hipoom.cli.workspace.WorkspaceContext
 import org.jline.reader.EndOfFileException
@@ -96,7 +97,6 @@ class TodoShellHandler: AbsHandler() {
 
         // 初始化 JLine 终端和行读取器
         var terminal: Terminal? = null
-        var reader: LineReader? = null
 
         try {
             // 创建终端

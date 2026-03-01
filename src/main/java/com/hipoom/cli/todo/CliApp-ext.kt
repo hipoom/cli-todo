@@ -79,6 +79,14 @@ object PersistentData {
         updateCurrentWorkspaceContext(Workspace.relative.createAndSaveWorkspace(app.getAppName(), alias))
     }
 
+    fun loadStyles(): String? {
+        return app.database().query("styles")
+    }
+
+    fun updateStyles(json: String) {
+        return app.database().save("styles", json)
+    }
+
 }
 
 val CliApp.processData: ProcessData

@@ -1,7 +1,7 @@
 {
-  "version": "1.0.1",
-  "versionCode": 10001,
-  "releaseDate": "2026-02-28",
-  "downloadUrl": "https://github.com/hipoom/cli-todo/releases/download/v1.0.1/todo.jar",
-  "releaseNotes": "improve the automatic update function"
+  "version": "1.0.5",
+  "versionCode": 10005,
+  "releaseDate": "2026-03-01",
+  "downloadUrl": "https://github.com/hipoom/cli-todo/releases/download/v1.0.5/todo.jar",
+  "releaseNotes": "增加 Style 相关功能。"
 }

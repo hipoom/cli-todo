@@ -4,7 +4,6 @@ import com.hipoom.cli.kvstorage.ext.asJsonObject
 import com.hipoom.cli.kvstorage.gson
 import com.hipoom.cli.scaffold.utils.readTextIfExist
 import com.hipoom.cli.todo.entity.item.ItemDao
-import com.hipoom.cli.todo.handler.style.StyleData
 import com.hipoom.cli.todo.handler.template.entity.TemplateVO
 import com.hipoom.cli.todo.handler.template.entity.Templates
 import com.hipoom.cli.workspace.WorkspaceContext
@@ -42,18 +41,6 @@ fun WorkspaceContext.updateTemplates(templates: Templates) {
 
 fun WorkspaceContext.findTemplateWithAlias(alias: String): TemplateVO? {
     return templates().templates.find { it.alias == alias }
-}
-
-fun WorkspaceContext.styles(): Map<String, StyleData> {
-    val file = workspaceDir.child("styles.json")
-    val json = file.readTextIfExist()
-    return json?.asJsonObject(Map::class.java) as? Map<String, StyleData> ?: emptyMap()
-}
-
-fun WorkspaceContext.updateStyles(styles: Map<String, StyleData>) {
-    val file = workspaceDir.child("styles.json")
-    file.createNewFileIfNotExist()
-    file.writeText(gson.toJson(styles))
 }
 
 fun WorkspaceContext.getCurrentStyleName(): String? {

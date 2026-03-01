@@ -21,7 +21,7 @@ if (localProperties.exists()) {
 
 
 group = 'com.hipoom'
-version = '1.0.4'
+version = '1.0.5'
 
 // 指定主类
 application {
@@ -152,7 +152,7 @@ dependencies {
     // 插件
     implementation "com.hipoom.cli:plugin:0.0.3"
     // 调色盘
-    implementation "com.hipoom.cli:palette:0.0.1"
+    implementation "com.hipoom.cli:palette:0.0.3"
 }
 
 test {
