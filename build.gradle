@@ -21,7 +21,7 @@ if (localProperties.exists()) {
 
 
 group = 'com.hipoom'
-version = '1.0.1'
+version = '1.0.4'
 
 // 指定主类
 application {
@@ -142,7 +142,7 @@ dependencies {
     // 文件夹管理
     implementation "com.hipoom:catalogue:0.0.2"
     // cli-core
-    implementation('com.hipoom.cli:core:0.0.10')
+    implementation('com.hipoom.cli:core:0.0.11')
     // KV 存储
     implementation "com.hipoom.cli:kvstorage:0.0.2"
     // Workspace
@@ -151,6 +151,8 @@ dependencies {
     implementation "com.hipoom.cli:scaffold:0.0.9"
     // 插件
     implementation "com.hipoom.cli:plugin:0.0.3"
+    // 调色盘
+    implementation "com.hipoom.cli:palette:0.0.1"
 }
 
 test {

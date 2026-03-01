@@ -1,6 +1,7 @@
 package com.hipoom.cli.todo
 
-import com.hipoom.cli.core.ui.Color
+import com.hipoom.cli.core.ui.palette.Color
+import com.hipoom.cli.core.ui.palette.Colors
 import com.hipoom.cli.scaffold.config.ConfigGroup
 import com.hipoom.cli.todo.handler.config.default
 import com.hipoom.cli.workspace.WorkspaceContext
@@ -104,7 +105,7 @@ object Show {
             if (splits.size != 3) {
                 return null
             }
-            return Color(splits[0], splits[1], splits[2])
+            return Colors.Bits24.createForeground(splits[0], splits[1], splits[2])
         }
 
         fun getBackgroundColor(): Color? {
@@ -113,7 +114,35 @@ object Show {
             if (splits.size != 3) {
                 return null
             }
-            return Color(splits[0], splits[1], splits[2])
+            return Colors.Bits24.createForeground(splits[0], splits[1], splits[2])
+        }
+
+        fun setTextColor(color: String) {
+            var config = commentStyle.configs?.find { it.name == "textColor" }
+            if (config == null) {
+                config = com.hipoom.cli.scaffold.config.ConfigGroup(
+                    name = "textColor",
+                    desc = "备注文字的颜色，格式是 RGB，例如 255,0,0 表示红色。",
+                    value = color
+                )
+                commentStyle.configs?.add(config)
+            } else {
+                config.value = color
+            }
+        }
+
+        fun setBackgroundColor(color: String) {
+            var config = commentStyle.configs?.find { it.name == "backgroundColor" }
+            if (config == null) {
+                config = com.hipoom.cli.scaffold.config.ConfigGroup(
+                    name = "backgroundColor",
+                    desc = "备注文字的背景颜色，格式是 RGB，例如 255,0,0 表示红色。None 表示使用默认值。",
+                    value = color
+                )
+                commentStyle.configs?.add(config)
+            } else {
+                config.value = color
+            }
         }
 
     }
@@ -156,6 +185,29 @@ object Show {
         fun get(name: String): String {
             return icon.getString(name, "[${name}]")
         }
+    }
+
+    fun setPinBackgroundColor(color: String) {
+        var config = show.configs?.find { it.name == "pinBackgroundColor" }
+        if (config == null) {
+            config = com.hipoom.cli.scaffold.config.ConfigGroup(
+                name = "pinBackgroundColor",
+                desc = "置顶事项的背景颜色，格式是 RGB，例如 255,0,0 表示红色。",
+                value = color
+            )
+            show.configs?.add(config)
+        } else {
+            config.value = color
+        }
+    }
+
+    fun getPinBackgroundColor(): Color? {
+        val color = show.getString("pinBackgroundColor", "200,200,200")
+        val splits = color.split(",").mapNotNull { it.trim().toIntOrNull() }
+        if (splits.size != 3) {
+            return null
+        }
+        return Colors.Bits24.createForeground(splits[0], splits[1], splits[2])
     }
 }
 

@@ -3,6 +3,7 @@ package com.hipoom.cli.todo;
 import androidx.annotation.NonNull;
 
 import com.hipoom.cli.core.ui.Printer;
+import com.hipoom.cli.todo.handler.style.StyleInitializer;
 
 /**
  * @author ZhengHaiPeng
@@ -18,6 +19,8 @@ public class Main {
     };
 
     public static void main(String[] args) {
+        StyleInitializer.INSTANCE.doInit();
+
         new TodoApp().run(new String[] { "shell" });
     }
 

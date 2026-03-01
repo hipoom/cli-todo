@@ -4,6 +4,7 @@ import com.hipoom.cli.core.ui.CharWidthCalculator
 import com.hipoom.cli.core.ui.TextBlockPrinter
 import com.hipoom.cli.core.ui.TextStyle
 import com.hipoom.cli.core.ui.TextStyleBuilder
+import com.hipoom.cli.core.ui.palette.Colors
 import com.hipoom.cli.todo.Configs
 import com.hipoom.cli.todo.entity.item.Item
 import com.hipoom.cli.todo.printLine
@@ -50,7 +51,7 @@ object ShowOneItemDetail {
 
         val textColor = Configs.show.commentStyle.getTextColor()
         val style = TextStyleBuilder()
-            .color(textColor?.red ?: 0, textColor?.green ?: 0, textColor?.blue ?: 0)
+            .color(textColor)
             .build()
 
         item.comments?.forEachIndexed { index, comment ->

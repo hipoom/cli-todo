@@ -33,6 +33,7 @@ import com.hipoom.cli.todo.handler.owner.OwnerHandler
 import com.hipoom.cli.todo.handler.pin.PinHandler
 import com.hipoom.cli.todo.handler.window.WindowHandler
 import com.hipoom.cli.todo.handler.show.ShowHandler
+import com.hipoom.cli.todo.handler.style.StyleHandler
 import com.hipoom.cli.todo.handler.view.ViewHandler
 import com.hipoom.cli.todo.handler.template.TemplateHandler
 import com.hipoom.cli.todo.handler.upgrade.UpgradeHandler
@@ -91,6 +92,7 @@ class TodoApp: CliApp() {
             OwnerHandler(),
             PinHandler(),
             ViewHandler(),
+            StyleHandler(),
             DevelopHandler(),
             FindHandler(),
             UpgradeHandler(),

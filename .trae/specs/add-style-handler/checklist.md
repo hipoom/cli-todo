@@ -1,0 +1,8 @@
+- [x] style 目录和 options.kt 文件已创建
+- [x] StyleHandler.kt 已创建并继承 ApacheCliOptionHandler
+- [x] StyleHandler 支持查看配色方案列表
+- [x] StyleHandler 支持切换配色方案 (-s 选项)
+- [x] StyleHandler 支持显示帮助 (-h 选项)
+- [x] StyleHandler 已在 TodoApp.kt 中注册
+- [x] 执行 `todo style` 能正确显示配色方案列表
+- [x] 执行 `todo style -s dark` 能正确切换配色方案
