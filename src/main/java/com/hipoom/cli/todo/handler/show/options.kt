@@ -82,6 +82,18 @@ val showOptions: Options = Options()
             .desc("Disable show label")
             .build()
     )
+    .addOption(
+        Option.builder("enable-comment")
+            .longOpt("enable-comment")
+            .desc("Enable show comment")
+            .build()
+    )
+    .addOption(
+        Option.builder("disable-comment")
+            .longOpt("disable-comment")
+            .desc("Disable show comment")
+            .build()
+    )
 
     .addOption(
         Option.builder("disable-id")

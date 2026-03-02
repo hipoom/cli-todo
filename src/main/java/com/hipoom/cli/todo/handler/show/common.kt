@@ -503,7 +503,7 @@ fun List<TreeModeRow>.show(textStyle: TextStyle? = null) {
             val commentIndent = line.indexOf("-- ") + 3
             
             // 打印评论
-            if (!row.item.comments.isNullOrEmpty()) {
+            if (Configs.show.needShowComment && !row.item.comments.isNullOrEmpty()) {
                 row.item.comments?.forEachIndexed { index, comment ->
                     val indent = row.indent_and_connector.length
                     printer.printLine(indent = commentIndent, text = "[${index + 1}] $comment", style = Styles.getCurrentStyle().getCommentBlockStyle())
@@ -548,7 +548,7 @@ fun List<TreeModeRow>.show(textStyle: TextStyle? = null) {
         printLine(line)
 
         // 打印评论
-        if (!row.item.comments.isNullOrEmpty()) {
+        if (Configs.show.needShowComment && !row.item.comments.isNullOrEmpty()) {
             row.item.comments?.forEachIndexed { index, comment ->
                 printer.printLine(indent = commentIndent, text = "[${index + 1}] $comment", style = Styles.getCurrentStyle().getCommentBlockStyle())
             }

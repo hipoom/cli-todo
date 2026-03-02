@@ -6,6 +6,7 @@ import com.hipoom.cli.core.ui.TextStyle
 import com.hipoom.cli.core.ui.TextStyleBuilder
 import com.hipoom.cli.core.ui.palette.Colors
 import com.hipoom.cli.todo.Configs
+import com.hipoom.cli.todo.defaultTextBlockPrinter
 import com.hipoom.cli.todo.entity.item.Item
 import com.hipoom.cli.todo.printLine
 import com.hipoom.cli.todo.utils.displayWidth
@@ -36,29 +37,22 @@ object ShowOneItemDetail {
         } else {
             printLine("deadline : null")
         }
-        if (item.comments?.isEmpty() == false) {
+        if (Configs.show.needShowComment && item.comments?.isEmpty() == false) {
             printLine("comments : ", false)
-        }
 
-        val printer = TextBlockPrinter(
-            printer = com.hipoom.cli.todo.Main.printer,
-            charWidthCalculator = object : CharWidthCalculator {
-                override fun calculate(text: String): Int {
-                    return text.displayWidth()
+            val printer = defaultTextBlockPrinter
+
+            val textColor = Configs.show.commentStyle.getTextColor()
+            val style = TextStyleBuilder()
+                .color(textColor)
+                .build()
+
+            item.comments?.forEachIndexed { index, comment ->
+                if (index == 0) {
+                    printer.print(0, 60, comment + "\n", style)
+                } else {
+                    printer.print(11, 60, comment + "\n", style)
                 }
-            }
-        )
-
-        val textColor = Configs.show.commentStyle.getTextColor()
-        val style = TextStyleBuilder()
-            .color(textColor)
-            .build()
-
-        item.comments?.forEachIndexed { index, comment ->
-            if (index == 0) {
-                printer.print(0, 60, comment + "\n", style)
-            } else {
-                printer.print(11, 60, comment + "\n", style)
             }
         }
         printLine("")

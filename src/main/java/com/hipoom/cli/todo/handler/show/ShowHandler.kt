@@ -65,6 +65,10 @@ class ShowHandler : ApacheCliOptionHandler() {
             commandLine.hasOption("enable-label") -> workspace.enableShowLabel()
             commandLine.hasOption("disable-label") -> workspace.disableShowLabel()
 
+            // enable-comment | disable-comment
+            commandLine.hasOption("enable-comment") -> workspace.enableShowComment()
+            commandLine.hasOption("disable-comment") -> workspace.disableShowComment()
+
             // help
             commandLine.hasOption("h") -> printHelp()
         }

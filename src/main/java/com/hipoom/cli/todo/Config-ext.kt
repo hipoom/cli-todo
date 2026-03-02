@@ -83,6 +83,7 @@ object Show {
     var useAlignMode by BooleanField({show}, "useAlignMode", false)
     var needShowDeadline by BooleanField({show}, "needShowDeadline", true)
     var needShowCommentSubscript by BooleanField({show}, "needShowCommentSubscript", true)
+    var needShowComment by BooleanField({show}, "needShowComment", true)
 
     val commentStyle = CommentStyle
 
