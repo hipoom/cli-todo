@@ -6,7 +6,6 @@ import com.hipoom.cli.core.ui.palette.Colors
 import com.hipoom.cli.scaffold.utils.readString
 import com.hipoom.cli.todo.defaultTextBlockPrinter
 import com.hipoom.cli.todo.printLine
-import org.jline.terminal.Terminal
 
 /**
  * @author ZhengHaiPeng
@@ -15,7 +14,7 @@ import org.jline.terminal.Terminal
  */
 object ColorPicker {
 
-    fun show256Colors() {
+    fun choose256Colors(): Int? {
         printLine("+=========================================================================+")
         printLine("| Standard Code :                                                         |")
         printLine("| ", newLine = false)
@@ -117,7 +116,14 @@ object ColorPicker {
         var inputCode: Int? = null
         while (inputCode == null) {
             val input = readString("请输入您要选择的颜色代码")
+            if ("e" == input) {
+                break
+            }
             inputCode = input?.toIntOrNull()
+        }
+
+        if (inputCode == null) {
+            return null
         }
 
         printLine("您选择的颜色是: ", newLine = false)
@@ -130,7 +136,8 @@ object ColorPicker {
                 backgroundColor = Colors.Bits8.createBackground(inputCode)
             )
         )
-
+        printLine()
+        return inputCode
     }
 
     private fun formatCode(code: Int): String {

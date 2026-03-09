@@ -67,4 +67,12 @@ object StyleStorage {
         app.persistentData.updateStyles(gson.toJson(configs))
     }
 
+    fun useStyle(app: CliApp, name: String) {
+        // 从持久化数据中加载所有的样式配置
+        val configs = loadAll(app)
+        configs.currentStyleName = name
+        // 保存到持久化数据中
+        app.persistentData.updateStyles(gson.toJson(configs))
+    }
+
 }

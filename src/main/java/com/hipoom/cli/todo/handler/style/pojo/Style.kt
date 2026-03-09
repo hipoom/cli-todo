@@ -55,4 +55,14 @@ class Style(
         printLine()
     }
 
+    fun clone(): Style {
+        return Style(
+            pinTextColor,
+            pinBackgroundColor,
+            secondaryTextColor,
+            commentBackgroundColor,
+            hintTextColor
+        )
+    }
+
 }

@@ -3,6 +3,7 @@ package com.hipoom.cli.todo.handler.style
 import com.hipoom.cli.scaffold.CliApp
 import com.hipoom.cli.scaffold.handler.ApacheCliOptionHandler
 import com.hipoom.cli.todo.Configs
+import com.hipoom.cli.todo.handler.style.actions.handleCreateStyle
 import com.hipoom.cli.todo.printLine
 import com.hipoom.cli.todo.storeCurrentConfigs
 import com.hipoom.cli.workspace.WorkspaceContext
@@ -41,6 +42,11 @@ class StyleHandler : ApacheCliOptionHandler() {
         
         if (commandLine.hasOption("set")) {
             setStyle(app, commandLine)
+            return true
+        }
+
+        if (commandLine.hasOption("create")) {
+            handleCreateStyle(app)
             return true
         }
         

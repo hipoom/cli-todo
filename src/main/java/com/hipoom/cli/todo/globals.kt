@@ -31,6 +31,10 @@ fun printLine(msg: Any? = null, newLine: Boolean = true) {
     }
 }
 
+fun readLine(prompt: String? = null): String? {
+    return reader.readLine(prompt)
+}
+
 fun TextBlockPrinter.printLine(indent: Int, text: String, maxWidth: Int = Int.MAX_VALUE, style: TextStyle? = null) {
     this.print(indent, maxWidth, text, style)
     printLine()

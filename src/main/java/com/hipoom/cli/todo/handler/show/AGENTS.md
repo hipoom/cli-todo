@@ -34,23 +34,23 @@ show/
 
 ## 命令选项
 
-| 选项 | 描述 |
-|------|------|
-| `--enable-done` | 启用显示已完成事项 |
-| `--disable-done` | 禁用显示已完成事项 |
-| `--enable-deleted` | 启用显示已删除事项 |
-| `--disable-deleted` | 禁用显示已删除事项 |
-| `--enable-show-on-launch` | 启用启动时显示事项 |
+| 选项                         | 描述        |
+|----------------------------|-----------|
+| `--enable-done`            | 启用显示已完成事项 |
+| `--disable-done`           | 禁用显示已完成事项 |
+| `--enable-deleted`         | 启用显示已删除事项 |
+| `--disable-deleted`        | 禁用显示已删除事项 |
+| `--enable-show-on-launch`  | 启用启动时显示事项 |
 | `--disable-show-on-launch` | 禁用启动时显示事项 |
-| `--enable-status` | 启用显示状态 |
-| `--disable-status` | 禁用显示状态 |
-| `--enable-owner` | 启用显示所有者 |
-| `--disable-owner` | 禁用显示所有者 |
-| `--enable-label` | 启用显示标签 |
-| `--disable-label` | 禁用显示标签 |
-| `--enable-id` | 启用显示 ID |
-| `--disable-id` | 禁用显示 ID |
-| `-h, --help` | 显示帮助信息 |
+| `--enable-status`          | 启用显示状态    |
+| `--disable-status`         | 禁用显示状态    |
+| `--enable-owner`           | 启用显示所有者   |
+| `--disable-owner`          | 禁用显示所有者   |
+| `--enable-label`           | 启用显示标签    |
+| `--disable-label`          | 禁用显示标签    |
+| `--enable-id`              | 启用显示 ID   |
+| `--disable-id`             | 禁用显示 ID   |
+| `-h, --help`               | 显示帮助信息    |
 
 ## 功能模块说明
 
