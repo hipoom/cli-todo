@@ -153,7 +153,8 @@ object ColorPicker {
             52, 53, 54, 55, 56, 57,
             58, 59,
             88, 89, 90, 91,
-            124, 125, 126
+            124, 125, 126,
+            160, 196
         )
 
         return if (light.contains(code)) Colors.Basic.Foreground.WHITE else Colors.Basic.Foreground.BLACK
