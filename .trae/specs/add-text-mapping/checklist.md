@@ -1,0 +1,7 @@
+- [x] `text_mapping --list` 能正确展示所有映射关系
+- [x] `text_mapping --add "->" "→"` 能成功添加映射
+- [x] `text_mapping --delete "->"` 能成功删除映射
+- [x] `text_mapping --help` 能正确打印帮助信息
+- [x] `add` 指令能自动应用文本映射替换
+- [x] `edit` 指令能自动应用文本映射替换
+- [x] 映射数据能正确持久化存储

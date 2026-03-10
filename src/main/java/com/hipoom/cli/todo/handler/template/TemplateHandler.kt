@@ -7,8 +7,8 @@ import com.hipoom.cli.scaffold.CliApp
 import com.hipoom.cli.scaffold.handler.ApacheCliOptionHandler
 import com.hipoom.cli.scaffold.utils.readInt
 import com.hipoom.cli.scaffold.utils.readLines
-import com.hipoom.cli.scaffold.utils.readString
 import com.hipoom.cli.todo.Configs
+import com.hipoom.cli.todo.readLineWithPrompt
 import com.hipoom.cli.todo.findTemplateWithAlias
 import com.hipoom.cli.todo.handler.template.entity.TemplateVO
 import com.hipoom.cli.todo.printLine
@@ -80,7 +80,7 @@ class TemplateHandler : ApacheCliOptionHandler() {
         var alias = commandLine.getOptionValue("c")
 
         if (alias.isNullOrEmpty()) {
-            alias = readString("请输入模板名称")
+            alias = readLineWithPrompt("请输入模板名称")
         }
         if (alias == null) {
             return

@@ -87,6 +87,14 @@ object PersistentData {
         return app.database().save("styles", json)
     }
 
+    fun loadTextMappings(): String? {
+        return app.database().query("text_mappings")
+    }
+
+    fun updateTextMappings(json: String) {
+        return app.database().save("text_mappings", json)
+    }
+
 }
 
 val CliApp.processData: ProcessData

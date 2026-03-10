@@ -2,8 +2,8 @@ package com.hipoom.cli.todo.handler
 
 import com.hipoom.cli.scaffold.CliApp
 import com.hipoom.cli.scaffold.handler.ApacheCliOptionHandler
-import com.hipoom.cli.scaffold.utils.readString
 import com.hipoom.cli.todo.entity.item.addComment
+import com.hipoom.cli.todo.readLineWithPrompt
 import com.hipoom.cli.todo.handler.show.ShowOneItemDetail
 import com.hipoom.cli.todo.itemDao
 import com.hipoom.cli.todo.printLine
@@ -73,7 +73,7 @@ class CommentHandler: ApacheCliOptionHandler() {
                 printLine("没有找到 id = $id 的条目呢~")
             },
             onFound = {
-                val comment = readString("请输入要添加的备注") ?: return@useItem
+                val comment = readLineWithPrompt("请输入要添加的备注") ?: return@useItem
                 it.addComment(comment)
                 printLine("备注添加完成啦 (ﾉ>ω<)ﾉ")
                 printLine("")

@@ -8,6 +8,7 @@ import com.hipoom.cli.todo.getFocusId
 import com.hipoom.cli.todo.handler.DeadLineEditor
 import com.hipoom.cli.todo.handler.label.LabelHandler
 import com.hipoom.cli.todo.handler.show.ShowHandler
+import com.hipoom.cli.todo.handler.textmapping.persistent.TextMappingStorage
 import com.hipoom.cli.todo.handler.view.ViewHandler
 import com.hipoom.cli.todo.itemDao
 import com.hipoom.cli.todo.printLine
@@ -79,7 +80,7 @@ class AddHandler : ApacheCliOptionHandler() {
         }
 
         // 内容
-        val content = commandLine.args.joinToString(separator = " ") { it }.trim()
+        val content = TextMappingStorage.applyMappings(app, commandLine.args.joinToString(separator = " ") { it }.trim())
 
         // 父节点们
         val parentIds = getParentIds(workspace, commandLine)

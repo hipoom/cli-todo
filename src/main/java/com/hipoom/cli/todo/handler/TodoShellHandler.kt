@@ -4,8 +4,8 @@ import com.hipoom.cli.scaffold.CliApp
 import com.hipoom.cli.scaffold.handler.AbsHandler
 import com.hipoom.cli.scaffold.handler.ApacheCliOptionHandler
 import com.hipoom.cli.scaffold.handler.cmdMappings
-import com.hipoom.cli.scaffold.utils.readString
 import com.hipoom.cli.todo.entity.item.last_modify_item_id
+import com.hipoom.cli.todo.readLineWithPrompt
 import com.hipoom.cli.todo.expandCmd
 import com.hipoom.cli.todo.getFocusId
 import com.hipoom.cli.todo.handler.add.AddHandler
@@ -161,7 +161,7 @@ class TodoShellHandler: AbsHandler() {
                         val placeholderPattern = "\\$\\{\\d+\\}".toRegex()
                         if (placeholderPattern.containsMatchIn(subCmd)) {
                             printLine("【警告】指令展开后存在没有替换的占位符: $subCmd")
-                            val yesOrNo = readString("请选择是否继续执行该指令[yes/no]")
+                            val yesOrNo = readLineWithPrompt("请选择是否继续执行该指令[yes/no]")
                             if (yesOrNo?.trim() != "yes") {
                                 break
                             }

@@ -6,6 +6,7 @@ import com.hipoom.cli.scaffold.utils.removeContinuousEmpty
 import com.hipoom.cli.scaffold.utils.removeEmptyCharAfterSeparator
 import com.hipoom.cli.scaffold.utils.removeEmptyCharBeforeSeparator
 import com.hipoom.cli.scaffold.utils.removeEmptyStrings
+import com.hipoom.cli.todo.entity.item.last_modify_item_id
 import com.hipoom.cli.todo.printLine
 
 
@@ -25,12 +26,24 @@ data class Ids(
 fun String?.parseIds(): Ids {
     // 将输入规范化
     val trimmed: String = (this ?: "").trim()
+        // 移除连续空格
         .removeContinuousEmpty()
+        // 移除逗号后的空格
         .removeEmptyCharAfterSeparator()
+        // 移除逗号前的空格
         .removeEmptyCharBeforeSeparator()
 
     if (trimmed.isEmpty()) {
         return Ids(emptyList(), null)
+    }
+
+    if ("-" == trimmed) {
+        val lastId = last_modify_item_id
+        return if (lastId != null) {
+            Ids(operators = listOf(lastId), target = null)
+        } else {
+            Ids(operators = listOf(), target = null)
+        }
     }
 
     val hasRange = trimmed.contains("..") || trimmed.contains("~")

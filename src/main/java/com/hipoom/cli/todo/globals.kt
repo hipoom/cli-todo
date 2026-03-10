@@ -31,7 +31,7 @@ fun printLine(msg: Any? = null, newLine: Boolean = true) {
     }
 }
 
-fun readLine(prompt: String? = null): String? {
+fun readLineWithPrompt(prompt: String? = null): String? {
     return reader.readLine(prompt)
 }
 

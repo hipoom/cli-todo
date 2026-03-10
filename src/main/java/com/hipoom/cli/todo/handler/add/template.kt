@@ -2,13 +2,14 @@ package com.hipoom.cli.todo.handler.add
 
 import com.hipoom.cli.scaffold.CliApp
 import com.hipoom.cli.scaffold.utils.readInt
-import com.hipoom.cli.scaffold.utils.readString
 import com.hipoom.cli.todo.entity.item.Item
+import com.hipoom.cli.todo.readLineWithPrompt
 import com.hipoom.cli.todo.getFocusId
 import com.hipoom.cli.todo.handler.show.ShowHandler
 import com.hipoom.cli.todo.itemDao
 import com.hipoom.cli.todo.printLine
 import com.hipoom.cli.todo.templates
+import com.hipoom.cli.todo.utils.parseIds
 import com.hipoom.cli.workspace.WorkspaceContext
 import org.apache.commons.cli.CommandLine
 
@@ -34,7 +35,7 @@ fun addWithTemplateMode(app: CliApp, workspace: WorkspaceContext, commandLine: C
         printLine("${index}. " + item)
     }
 
-    val content = readString("请输入你要添加的事项内容")
+    val content = readLineWithPrompt("请输入你要添加的事项内容")
     if (content.isNullOrEmpty()) {
         return
     }
@@ -72,7 +73,7 @@ fun addWithTemplateMode(app: CliApp, workspace: WorkspaceContext, commandLine: C
 private fun WorkspaceContext.getParentIdOrFocusId(commandLine: CommandLine): List<Int> {
     val parentIds = commandLine.getOptionValue("p")
     if (!parentIds.isNullOrEmpty()) {
-        return parentIds.split(",").mapNotNull { it.toIntOrNull() }
+        return parentIds.parseIds().operators
     }
 
     val focus = getFocusId()?.toIntOrNull() ?: return emptyList()

@@ -1,13 +1,8 @@
 package com.hipoom.cli.todo.handler.style.actions
 
-import com.hipoom.cli.core.ui.TextStyle
-import com.hipoom.cli.core.ui.palette.Color
 import com.hipoom.cli.core.ui.palette.Colors
 import com.hipoom.cli.scaffold.CliApp
-import com.hipoom.cli.todo.Show
-import com.hipoom.cli.todo.defaultTextBlockPrinter
 import com.hipoom.cli.todo.handler.style.Styles
-import com.hipoom.cli.todo.handler.style.persistent.NameStylePair
 import com.hipoom.cli.todo.handler.style.persistent.StyleConfigs
 import com.hipoom.cli.todo.handler.style.persistent.StyleStorage
 import com.hipoom.cli.todo.handler.style.pojo.Style
@@ -34,12 +29,12 @@ import com.hipoom.cli.todo.utils.ColorPicker
     }
     
 
-    val input = com.hipoom.cli.todo.readLine("请选择您要基于哪个现有方案创建新方案: ")
+    val input = com.hipoom.cli.todo.readLineWithPrompt("请选择您要基于哪个现有方案创建新方案: ")
     val baseIndex = input?.toIntOrNull() ?: return
     val baseStyle: Style = configs.name2Style?.get(baseIndex)?.style!!
     val customColor = baseStyle.clone()
 
-    var yn = com.hipoom.cli.todo.readLine("是否要修改置顶事项的文字颜色? (Y/N)")
+    var yn = com.hipoom.cli.todo.readLineWithPrompt("是否要修改置顶事项的文字颜色? (Y/N)")
     if (yn == "Y" || yn == "y") {
         val colorCode = ColorPicker.choose256Colors()
         if (colorCode != null) {
@@ -47,7 +42,7 @@ import com.hipoom.cli.todo.utils.ColorPicker
         }
     }
 
-    yn = com.hipoom.cli.todo.readLine("是否要修改置顶事项的背景颜色? (Y/N)")
+    yn = com.hipoom.cli.todo.readLineWithPrompt("是否要修改置顶事项的背景颜色? (Y/N)")
     if (yn == "Y" || yn == "y") {
         val colorCode = ColorPicker.choose256Colors()
         if (colorCode != null) {
@@ -55,7 +50,7 @@ import com.hipoom.cli.todo.utils.ColorPicker
         }
     }
 
-    yn = com.hipoom.cli.todo.readLine("是否要修改备注的文字颜色? (Y/N)")
+    yn = com.hipoom.cli.todo.readLineWithPrompt("是否要修改备注的文字颜色? (Y/N)")
     if (yn == "Y" || yn == "y") {
         val colorCode = ColorPicker.choose256Colors()
         if (colorCode != null) {
@@ -63,7 +58,7 @@ import com.hipoom.cli.todo.utils.ColorPicker
         }
     }
 
-    yn = com.hipoom.cli.todo.readLine("是否要修改备注的背景颜色? (Y/N)")
+    yn = com.hipoom.cli.todo.readLineWithPrompt("是否要修改备注的背景颜色? (Y/N)")
     if (yn == "Y" || yn == "y") {
         val colorCode = ColorPicker.choose256Colors()
         if (colorCode != null) {
@@ -74,15 +69,15 @@ import com.hipoom.cli.todo.utils.ColorPicker
 
     customColor.showDemo("当前颜色方案：")
 
-    yn = com.hipoom.cli.todo.readLine("是否保存？ (Y/N)")
+    yn = com.hipoom.cli.todo.readLineWithPrompt("是否保存？ (Y/N)")
     var name: String? = null
     if (yn == "Y" || yn == "y") {
-        name = com.hipoom.cli.todo.readLine("请输入配色方案的名称: ")
+        name = com.hipoom.cli.todo.readLineWithPrompt("请输入配色方案的名称: ")
         if (name != null) {
             StyleStorage.addOrReplaceStyle(app = app, name = name, style = customColor)
         }
 
-        yn = com.hipoom.cli.todo.readLine("是否立即使用？ (Y/N)")
+        yn = com.hipoom.cli.todo.readLineWithPrompt("是否立即使用？ (Y/N)")
         if (yn == "Y" || yn == "y") {
             StyleStorage.useStyle(app, name!!)
         }

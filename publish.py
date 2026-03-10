@@ -63,6 +63,32 @@ def run_build():
         raise RuntimeError(f"Build failed with return code {result.returncode}")
 
 
+def create_git_tag(version: str):
+    tag_name = f"v{version}"
+    
+    result = subprocess.run(
+        ['git', 'tag', tag_name],
+        cwd=Path(__file__).parent,
+        capture_output=True,
+        text=True
+    )
+    if result.returncode != 0:
+        raise RuntimeError(f"Failed to create git tag: {result.stderr}")
+    
+    print(f"Created git tag: {tag_name}")
+    
+    result = subprocess.run(
+        ['git', 'push', 'origin', tag_name],
+        cwd=Path(__file__).parent,
+        capture_output=True,
+        text=True
+    )
+    if result.returncode != 0:
+        raise RuntimeError(f"Failed to push git tag: {result.stderr}")
+    
+    print(f"Pushed git tag to origin: {tag_name}")
+
+
 def generate_version_json(output_path: str, version: str, version_code: int, release_notes: str):
     download_url = f"https://github.com/hipoom/cli-todo/releases/download/v{version}/todo.jar"
     version_info = {
@@ -107,6 +133,9 @@ def main():
     version_code = calculate_version_code(new_version)
     version_json_path.parent.mkdir(parents=True, exist_ok=True)
     generate_version_json(str(version_json_path), new_version, version_code, release_notes)
+    
+    print("Creating and pushing git tag...")
+    create_git_tag(new_version)
     
     print(f"Done! Version {new_version} has been published.")
 

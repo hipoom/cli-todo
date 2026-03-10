@@ -8,7 +8,7 @@ import com.hipoom.cli.todo.handler.style.persistent.NameStylePair
 import com.hipoom.cli.todo.handler.style.persistent.StyleStorage
 import com.hipoom.cli.todo.persistentData
 import com.hipoom.cli.todo.printLine
-import com.hipoom.cli.todo.reader
+import com.hipoom.cli.todo.readLineWithPrompt
 import org.apache.commons.cli.CommandLine
 
 /**
@@ -27,8 +27,8 @@ fun setStyle(app: CliApp, commandLine: CommandLine) {
         }
     }
 
-    val input = reader.readLine("请输入要设置的方案序号:")
-    val index = input.toIntOrNull()
+    val input = readLineWithPrompt("请输入要设置的方案序号:")
+    val index = input?.toIntOrNull()
 
     // 检查序号是否为空
     if (index == null) {

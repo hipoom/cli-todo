@@ -3,7 +3,6 @@ package com.hipoom.cli.todo;
 import androidx.annotation.NonNull;
 
 import com.hipoom.cli.core.ui.Printer;
-import com.hipoom.cli.todo.handler.style.StyleInitializer;
 
 /**
  * @author ZhengHaiPeng

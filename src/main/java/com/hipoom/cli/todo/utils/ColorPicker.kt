@@ -3,8 +3,8 @@ package com.hipoom.cli.todo.utils
 import com.hipoom.cli.core.ui.TextStyle
 import com.hipoom.cli.core.ui.palette.Color
 import com.hipoom.cli.core.ui.palette.Colors
-import com.hipoom.cli.scaffold.utils.readString
 import com.hipoom.cli.todo.defaultTextBlockPrinter
+import com.hipoom.cli.todo.readLineWithPrompt
 import com.hipoom.cli.todo.printLine
 
 /**
@@ -115,7 +115,7 @@ object ColorPicker {
 
         var inputCode: Int? = null
         while (inputCode == null) {
-            val input = readString("请输入您要选择的颜色代码")
+            val input = readLineWithPrompt("请输入您要选择的颜色代码")
             if ("e" == input) {
                 break
             }

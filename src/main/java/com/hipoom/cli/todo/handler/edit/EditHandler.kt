@@ -4,12 +4,14 @@ import com.hipoom.cli.core.ui.TextEditor
 import com.hipoom.cli.scaffold.CliApp
 import com.hipoom.cli.scaffold.handler.ApacheCliOptionHandler
 import com.hipoom.cli.todo.Configs
+import com.hipoom.cli.todo.app
 import com.hipoom.cli.todo.entity.item.Item
 import com.hipoom.cli.todo.entity.item.copyFromAnotherWithoutChildren
 import com.hipoom.cli.todo.gson
 import com.hipoom.cli.todo.handler.DeadLineEditor
 import com.hipoom.cli.todo.handler.show.ShowOneItemDetail
 import com.hipoom.cli.todo.handler.show.show
+import com.hipoom.cli.todo.handler.textmapping.persistent.TextMappingStorage
 import com.hipoom.cli.todo.itemDao
 import com.hipoom.cli.todo.printLine
 import com.hipoom.cli.workspace.WorkspaceContext
@@ -116,7 +118,7 @@ class EditHandler : ApacheCliOptionHandler() {
 
                 if (newContent != null || newOwner != null || newDeadline != null || newLabel != null) {
                     if (newContent != null) {
-                        item.content = newContent
+                        item.content = TextMappingStorage.applyMappings(app, newContent)
                     }
                     if (newOwner != null) {
                         item.owner = newOwner
@@ -153,7 +155,7 @@ class EditHandler : ApacheCliOptionHandler() {
                                 // 否则，在命令行窗口中输入
                                 else {
                                     printLine("请输入新内容:")
-                                    item.content = readln().trim()
+                                    item.content = TextMappingStorage.applyMappings(app, readln().trim())
                                 }
                             }
                             "2" -> {

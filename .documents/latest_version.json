@@ -1,7 +1,7 @@
 {
-  "version": "1.0.6",
-  "versionCode": 10006,
-  "releaseDate": "2026-03-10",
-  "downloadUrl": "https://github.com/hipoom/cli-todo/releases/download/v1.0.6/todo.jar",
-  "releaseNotes": "add style handler"
+  "version": "1.0.7",
+  "versionCode": 10007,
+  "releaseDate": "2026-03-11",
+  "downloadUrl": "https://github.com/hipoom/cli-todo/releases/download/v1.0.7/todo.jar",
+  "releaseNotes": "1. 增加自定义文本替换功能； 2. 优化 readString； 3. 支持通过 - 指定 id 为上一个操作的 id。"
 }
