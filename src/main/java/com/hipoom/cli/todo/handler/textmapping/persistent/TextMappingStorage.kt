@@ -3,8 +3,22 @@ package com.hipoom.cli.todo.handler.textmapping.persistent
 import com.hipoom.cli.scaffold.CliApp
 import com.hipoom.cli.todo.gson
 import com.hipoom.cli.todo.persistentData
+import java.text.SimpleDateFormat
+import java.util.Date
 
 object TextMappingStorage {
+
+    /* ======================================================= */
+    /* Fields                                                  */
+    /* ======================================================= */
+
+    private val sdf = SimpleDateFormat("yyyy-MM-dd")
+
+
+
+    /* ======================================================= */
+    /* Public Methods                                          */
+    /* ======================================================= */
     
     fun loadAll(app: CliApp): TextMappingConfigs {
         val json = app.persistentData.loadTextMappings()
@@ -42,6 +56,10 @@ object TextMappingStorage {
                 result = result.replace(pair.original!!, pair.replacement!!)
             }
         }
+
+        // 替换日期
+        result = result.replace("\${date}", sdf.format(Date(System.currentTimeMillis())))
+
         return result
     }
 }
