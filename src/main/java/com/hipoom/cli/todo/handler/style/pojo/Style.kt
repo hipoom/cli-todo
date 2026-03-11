@@ -47,6 +47,12 @@ class Style(
             .build()
     }
 
+    fun getHintTextStyle(): TextStyle {
+        return TextStyleBuilder()
+            .color(hintTextColor)
+            .build()
+    }
+
     fun showDemo(name: String) {
         val printer = defaultTextBlockPrinter
         printer.printLine(indent = 0, text = name)

@@ -1,16 +1,20 @@
 package com.hipoom.cli.todo.handler
 
+import com.hipoom.cli.core.ui.TextStyle
 import com.hipoom.cli.scaffold.CliApp
 import com.hipoom.cli.scaffold.handler.AbsHandler
 import com.hipoom.cli.scaffold.handler.ApacheCliOptionHandler
 import com.hipoom.cli.scaffold.handler.cmdMappings
+import com.hipoom.cli.todo.defaultTextBlockPrinter
 import com.hipoom.cli.todo.entity.item.last_modify_item_id
 import com.hipoom.cli.todo.readLineWithPrompt
 import com.hipoom.cli.todo.expandCmd
 import com.hipoom.cli.todo.getFocusId
 import com.hipoom.cli.todo.handler.add.AddHandler
+import com.hipoom.cli.todo.handler.style.Styles
 import com.hipoom.cli.todo.handler.view.getCurrentVirtualView
 import com.hipoom.cli.todo.isQuickMode
+import com.hipoom.cli.todo.printHint
 import com.hipoom.cli.todo.printLine
 import com.hipoom.cli.todo.processData
 import com.hipoom.cli.todo.reader
@@ -124,6 +128,11 @@ class TodoShellHandler: AbsHandler() {
                 }
             }
             
+            // 添加 cmdMappings 中的映射
+            cmdMappings.mappings.forEach {
+                commands.add(it.quick)
+            }
+            
             // 创建补全器
             val completer = StringsCompleter(commands)
 
@@ -153,7 +162,7 @@ class TodoShellHandler: AbsHandler() {
                     })
 
                     if (need_show_expand_cmds) {
-                        printLine("展开后的指令: " + subCmds.joinToString(separator = " -> ") { it })
+                        defaultTextBlockPrinter.printHint(text = "展开后的指令: " + subCmds.joinToString(separator = " -> ") { it })
                     }
 
                     for (subCmd in subCmds) {
@@ -202,7 +211,7 @@ class TodoShellHandler: AbsHandler() {
                         // 获取当前的工作空间
                         ws = app.processData.getCurrentWorkspaceContext()
                         if (need_show_last_modified_item) {
-                            printLine("? = $last_modify_item_id")
+                            defaultTextBlockPrinter.printHint(text = "? = $last_modify_item_id")
                         }
                     }
 

@@ -2,6 +2,7 @@ package com.hipoom.cli.todo.handler.add
 
 import com.hipoom.cli.scaffold.CliApp
 import com.hipoom.cli.scaffold.handler.ApacheCliOptionHandler
+import com.hipoom.cli.todo.defaultTextBlockPrinter
 import com.hipoom.cli.todo.entity.item.Item
 import com.hipoom.cli.todo.entity.item.last_modify_item_id
 import com.hipoom.cli.todo.getFocusId
@@ -11,7 +12,10 @@ import com.hipoom.cli.todo.handler.show.ShowHandler
 import com.hipoom.cli.todo.handler.textmapping.persistent.TextMappingStorage
 import com.hipoom.cli.todo.handler.view.ViewHandler
 import com.hipoom.cli.todo.itemDao
+import com.hipoom.cli.todo.printError
+import com.hipoom.cli.todo.printHint
 import com.hipoom.cli.todo.printLine
+import com.hipoom.cli.todo.readLineWithPrompt
 import com.hipoom.cli.todo.setQuickMode
 import com.hipoom.cli.todo.utils.parseIds
 import com.hipoom.cli.workspace.WorkspaceContext
@@ -193,9 +197,9 @@ class AddHandler : ApacheCliOptionHandler() {
             DeadLineEditor.parseTimestamp(it.trim())
         }
 
-        printLine("批量新增中，每一行都将作为一个事项添加，输入 exit 推出批量模式。")
-        printLine("在批量模式中，你可以输入 child 指令，后续输入将作为上一个输入事项的子事项。")
-        printLine("同理，你也可以输入 parent 指令。")
+        defaultTextBlockPrinter.printHint(text = "批量新增中，每一行都将作为一个事项添加，输入 exit 推出批量模式。")
+        defaultTextBlockPrinter.printHint(text = "在批量模式中，你可以输入 child 指令，后续输入将作为上一个输入事项的子事项。")
+        defaultTextBlockPrinter.printHint(text = "同理，你也可以输入 parent 指令。")
 
         val stack = Stack<List<Int>>()
         stack.push(parentIds)
@@ -207,8 +211,12 @@ class AddHandler : ApacheCliOptionHandler() {
         while (true) {
             val parents = stack.peek()
 
-            print("批量新增(${parents.joinToString { it.toString() }}) $indent> ")
-            val content = readln()
+            val parentIds = parents.joinToString { it.toString() }
+            val content = if (parentIds.isEmpty()) {
+                readLineWithPrompt("批量新增 $indent> ") ?: ""
+            } else {
+                readLineWithPrompt("批量新增(${parentIds}) $indent> ") ?: ""
+            }
             if (content.trim() == "exit" || content.trim() == "exit()" || content.trim() == "e") {
                 break
             }
@@ -219,7 +227,7 @@ class AddHandler : ApacheCliOptionHandler() {
 
             if (content == "child" || content == "c") {
                 if (preChildIds == null) {
-                    printLine("您还没有新增过任何指令，无法使用 child 指令.")
+                    printError("您还没有新增过任何指令，无法使用 child 指令.")
                     continue
                 } else {
                     stack.push(preChildIds)
@@ -230,7 +238,7 @@ class AddHandler : ApacheCliOptionHandler() {
 
             if (content == "parent" || content == "p") {
                 if (stack.size == 1) {
-                    printLine("您还没有执行过 child，或者当前就是最顶层了。")
+                    printError("您还没有执行过 child，或者当前就是最顶层了。")
                     continue
                 }
                 stack.pop()

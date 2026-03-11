@@ -7,6 +7,8 @@ import com.hipoom.cli.core.ui.TextBlockPrinter
 import com.hipoom.cli.core.ui.TextStyle
 import com.hipoom.cli.core.ui.TextStyleBuilder
 import com.hipoom.cli.core.ui.palette.Colors
+import com.hipoom.cli.todo.entity.item.last_modify_item_id
+import com.hipoom.cli.todo.handler.style.Styles
 import com.hipoom.cli.todo.utils.displayWidth
 import org.jline.reader.LineReader
 
@@ -31,11 +33,19 @@ fun printLine(msg: Any? = null, newLine: Boolean = true) {
     }
 }
 
+fun printError(msg: String) {
+    defaultTextBlockPrinter.error(text = msg)
+}
+
+fun printSuccess(msg: String) {
+    defaultTextBlockPrinter.success(text = msg)
+}
+
 fun readLineWithPrompt(prompt: String? = null): String? {
     return reader.readLine(prompt)
 }
 
-fun TextBlockPrinter.printLine(indent: Int, text: String, maxWidth: Int = Int.MAX_VALUE, style: TextStyle? = null) {
+fun TextBlockPrinter.printLine(indent: Int = 0, text: String, maxWidth: Int = Int.MAX_VALUE, style: TextStyle? = null) {
     this.print(indent, maxWidth, text, style)
     printLine()
 }
@@ -47,11 +57,20 @@ fun TextBlockPrinter.error(text: String, indent: Int = 0, maxWidth: Int = Int.MA
     this.printLine(indent = indent, text = text, maxWidth = maxWidth, style = style)
 }
 
-fun TextBlockPrinter.sucess(text: String, indent: Int = 0, maxWidth: Int = Int.MAX_VALUE) {
+fun TextBlockPrinter.success(text: String, indent: Int = 0, maxWidth: Int = Int.MAX_VALUE) {
     val style = TextStyleBuilder()
         .color(Colors.Basic.Foreground.GREEN)
         .build()
     this.printLine(indent = indent, text = text, maxWidth = maxWidth, style = style)
+}
+
+fun TextBlockPrinter.printHint(indent: Int = 0, text: String, maxWidth: Int = Int.MAX_VALUE, style: TextStyle? = null) {
+    printLine(
+        indent = indent,
+        text = text,
+        maxWidth = maxWidth,
+        style = style ?: Styles.getCurrentStyle().getHintTextStyle()
+    )
 }
 
 /**
