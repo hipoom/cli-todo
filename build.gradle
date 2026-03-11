@@ -102,15 +102,9 @@ tasks.register('CopyJar') {
 jar.finalizedBy CopyJar
 
 
-apply from: "publish-jar-2-local-maven.gradle"
-
 repositories {
     mavenCentral()
     google()
-
-    maven {
-        url "C:\\Workspace\\local_maven"
-    }
 }
 
 dependencies {
