@@ -16,6 +16,7 @@ import com.hipoom.cli.todo.handler.group.GroupHandler
 import com.hipoom.cli.todo.handler.style.Styles
 import com.hipoom.cli.todo.itemDao
 import com.hipoom.cli.todo.printLine
+import com.hipoom.cli.todo.printSuccess
 import com.hipoom.cli.todo.utils.displayWidth
 import com.hipoom.cli.todo.utils.number2Subscript
 import com.hipoom.cli.todo.utils.parseIds
@@ -220,7 +221,12 @@ object ShowModeUtils {
             itemList.forEachIndexed { index, item ->
                 val statusIcon = DescriptionUtils.getItemStatusIcon(workspace, item)
                 val connector = if (index == itemList.size - 1) "`--" else "|--"
-                printLine("${DescriptionUtils.getItemIdDescription(workspace, item)}$statusIcon $connector ${item.getContentCompact()}" + DescriptionUtils.getItemLabels(item))
+                val line = "${DescriptionUtils.getItemIdDescription(workspace, item)}$statusIcon $connector ${item.getContentCompact()}" + DescriptionUtils.getItemLabels(item)
+                if (item.status == Item.STATUS_DONE) {
+                    printSuccess(line)
+                } else {
+                    printLine(line)
+                }
             }
             printLine()
         }
@@ -487,18 +493,23 @@ fun TreeModeRow.commentSubscript(): String {
 fun List<TreeModeRow>.show(textStyle: TextStyle? = null) {
     val printer = defaultTextBlockPrinter
 
-    fun printLine(line: String) {
-        if (textStyle == null) {
-            com.hipoom.cli.todo.printLine(line)
-        } else {
+    fun printLine(line: String, item: Item) {
+        if (textStyle != null) {
             printer.printLine(indent = 0, text = line, maxWidth = 10000, textStyle)
+            return
+        }
+        
+        if (item.status == Item.STATUS_DONE) {
+            printSuccess(line)
+        } else {
+            com.hipoom.cli.todo.printLine(line)
         }
     }
 
     if (!Configs.show.useAlignMode) {
         forEach { row ->
             val line = (row.id + " " + row.status + row.contentWithIndent + row.commentSubscript() + " " + row.collapseStatus + " " + row.owners + " " + row.labels + " " + row.deadline)
-            printLine(line)
+            printLine(line, row.item)
 
             val commentIndent = line.indexOf("-- ") + 3
             
@@ -545,7 +556,7 @@ fun List<TreeModeRow>.show(textStyle: TextStyle? = null) {
 
         val commentIndent = line.indexOf("-- ") + 3
 
-        printLine(line)
+        printLine(line, row.item)
 
         // 打印评论
         if (Configs.show.needShowComment && !row.item.comments.isNullOrEmpty()) {
