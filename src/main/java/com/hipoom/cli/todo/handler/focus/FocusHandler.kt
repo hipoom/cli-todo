@@ -6,8 +6,10 @@ import com.hipoom.cli.todo.entity.item.last_modify_item_id
 import com.hipoom.cli.todo.getFocusId
 import com.hipoom.cli.todo.handler.show.show
 import com.hipoom.cli.todo.itemDao
+import com.hipoom.cli.todo.printError
 import com.hipoom.cli.todo.printLine
 import com.hipoom.cli.todo.setFocusId
+import com.hipoom.cli.todo.utils.parseIds
 import com.hipoom.cli.workspace.WorkspaceContext
 import org.apache.commons.cli.CommandLine
 import org.apache.commons.cli.Options
@@ -39,7 +41,7 @@ class FocusHandler : ApacheCliOptionHandler() {
         app: CliApp,
         workspace: WorkspaceContext
     ): Boolean {
-        val old_focus_id = workspace.getFocusId()
+        val oldFocusId = workspace.getFocusId()
         when {
             commandLine.hasOption("c") -> { clearFocus(workspace); app.show() }
             commandLine.hasOption("p") -> { focusParent(workspace); app.show() }
@@ -54,9 +56,9 @@ class FocusHandler : ApacheCliOptionHandler() {
         }
 
         // 更新最后一次改动的事项 id
-        val now_focus_id = workspace.getFocusId()
-        if (old_focus_id != now_focus_id && now_focus_id != null) {
-            last_modify_item_id = now_focus_id.toIntOrNull()
+        val currentFocusId = workspace.getFocusId()
+        if (oldFocusId != currentFocusId && currentFocusId != null) {
+            last_modify_item_id = currentFocusId.toIntOrNull()
         }
 
         return true
@@ -74,16 +76,18 @@ class FocusHandler : ApacheCliOptionHandler() {
     }
 
     private fun setFocusId(commandLine: CommandLine, workspace: WorkspaceContext) {
-        val id = commandLine.getOptionValue("i")?.toIntOrNull()
-        if (id == null) {
-            printLine("请输入正确的 id.")
+        val (operators, target) = commandLine.getOptionValue("i").parseIds()
+        if (operators.isEmpty()) {
+            printError("请输入正确的 id.")
             return
         }
+
+        val id = operators[0]
 
         workspace.itemDao().useItem(
             id = id,
             ifNotFound = {
-                printLine("无法找到 id = $id 对应的事项。\n")
+                printError("无法找到 id = $id 对应的事项。\n")
             },
             onFound = {
                 workspace.setFocusId(id.toString())
