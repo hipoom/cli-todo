@@ -13,6 +13,10 @@ fun tryShowByFocus(originParams: String, workspace: WorkspaceContext): Boolean {
     // 获取 focus-id
     val id = focusId.toIntOrNull() ?: return false
 
+    // 加载所有事项用于显示 pinned items
+    val allItems = workspace.itemDao().loadAllItems()
+    workspace.showPinnedItems(allItems)
+
     // 获取 focus 的事项
     workspace.itemDao().loadAsTree(
         id = id,

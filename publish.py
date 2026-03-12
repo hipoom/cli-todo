@@ -63,6 +63,28 @@ def run_build():
         raise RuntimeError(f"Build failed with return code {result.returncode}")
 
 
+def commit_changes(version: str):
+    result = subprocess.run(
+        ['git', 'add', '-A'],
+        cwd=Path(__file__).parent,
+        capture_output=True,
+        text=True
+    )
+    if result.returncode != 0:
+        raise RuntimeError(f"Failed to stage changes: {result.stderr}")
+    
+    result = subprocess.run(
+        ['git', 'commit', '-m', f'release: v{version}'],
+        cwd=Path(__file__).parent,
+        capture_output=True,
+        text=True
+    )
+    if result.returncode != 0:
+        raise RuntimeError(f"Failed to commit changes: {result.stderr}")
+    
+    print(f"Committed changes for version {version}")
+
+
 def create_git_tag(version: str):
     tag_name = f"v{version}"
     
@@ -76,17 +98,6 @@ def create_git_tag(version: str):
         raise RuntimeError(f"Failed to create git tag: {result.stderr}")
     
     print(f"Created git tag: {tag_name}")
-    
-    # result = subprocess.run(
-    #     ['git', 'push', 'origin', tag_name],
-    #     cwd=Path(__file__).parent,
-    #     capture_output=True,
-    #     text=True
-    # )
-    # if result.returncode != 0:
-    #     raise RuntimeError(f"Failed to push git tag: {result.stderr}")
-    #
-    # print(f"Pushed git tag to origin: {tag_name}")
 
 
 def generate_version_json(output_path: str, version: str, version_code: int, release_notes: str):
@@ -133,6 +144,9 @@ def main():
     version_code = calculate_version_code(new_version)
     version_json_path.parent.mkdir(parents=True, exist_ok=True)
     generate_version_json(str(version_json_path), new_version, version_code, release_notes)
+    
+    print("Committing changes...")
+    commit_changes(new_version)
     
     print("Creating and pushing git tag...")
     create_git_tag(new_version)

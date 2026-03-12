@@ -1,7 +1,7 @@
 {
-  "version": "1.0.9",
-  "versionCode": 10009,
+  "version": "1.0.11",
+  "versionCode": 10011,
   "releaseDate": "2026-03-13",
-  "downloadUrl": "https://github.com/hipoom/cli-todo/releases/download/v1.0.9/todo.jar",
-  "releaseNotes": "add cmd-prefix cmd"
+  "downloadUrl": "https://github.com/hipoom/cli-todo/releases/download/v1.0.11/todo.jar",
+  "releaseNotes": "fix the bug where the pin items is not displayed in focus mode"
 }

@@ -1,0 +1,3 @@
+- [x] Focus 模式下执行 show 命令时，pinned 事项能够正确显示
+- [x] Pinned 事项显示在 focus 事项之前
+- [x] 即使 pinned 事项不在 focus 子树中，也能正确显示
