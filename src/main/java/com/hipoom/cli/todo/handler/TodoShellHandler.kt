@@ -154,18 +154,21 @@ class TodoShellHandler: AbsHandler() {
 
             reader.widgets["skip-prefix-widget"] = Widget {
                 skipPrefixForCurrentInput = true
+                val basePrompt = "${prefixDelegate?.invoke(ws) ?: "${ws.workspaceAlias}> "}"
+                val blanks = " ".repeat(currentCmdPrefix?.length ?: 0)
+                print("\r${basePrompt}${blanks}")
+                // 这里重复一下，是因为要把光标回退到 "> " 后面
+                print("\r${basePrompt}")
                 true
             }
 
             // 绑定 Ctrl+B 来临时取消前缀自动填充
             val keyMaps = reader.keyMaps
-            val mainKeyMap = keyMaps.get(LineReader.MAIN)
-            if (mainKeyMap != null) {
-                mainKeyMap.bind(
-                    Reference("skip-prefix-widget"),
-                    KeyMap.ctrl('B')
-                )
-            }
+            val mainKeyMap = keyMaps[LineReader.MAIN]
+            mainKeyMap?.bind(
+                Reference("skip-prefix-widget"),
+                KeyMap.ctrl('B')
+            )
 
             // 设置历史文件（可选）
             // (reader.history as DefaultHistory).setHistoryFile(File("${System.getProperty("user.home")}/.cli_history"))
@@ -173,28 +176,27 @@ class TodoShellHandler: AbsHandler() {
             var needContinue = true
             
             while (needContinue) {
+                skipPrefixForCurrentInput = false
+
+                // 计算默认的 promt 和 cmd prefix
                 val basePrefix = prefixDelegate?.invoke(ws) ?: "${ws.workspaceAlias}> "
-                val prefix = if (currentCmdPrefix != null && !skipPrefixForCurrentInput) {
+                val needCmdPrefix = (currentCmdPrefix != null && !skipPrefixForCurrentInput)
+                val prefix = if (needCmdPrefix) {
                     "$basePrefix${currentCmdPrefix} "
                 } else {
                     basePrefix
                 }
 
+
                 try {
-                    skipPrefixForCurrentInput = false
-                    
                     val cmd = reader.readLine(prefix).trim()
+                    // println("cmd: $cmd")
                     
                     var finalCmd = cmd
-                    if (currentCmdPrefix != null && cmd.isNotEmpty()) {
-                        val firstWord = cmd.split("\\s+".toRegex()).firstOrNull() ?: ""
-                        val isCompleteCommand = commands.contains(firstWord) || 
-                            cmdMappings.mappings.any { it.quick == firstWord }
-                        
-                        if (!isCompleteCommand) {
-                            finalCmd = "$currentCmdPrefix $cmd"
-                        }
+                    if (currentCmdPrefix != null && cmd.isNotEmpty() && !skipPrefixForCurrentInput) {
+                        finalCmd = "$currentCmdPrefix $cmd"
                     }
+                    // println("finalCmd: $finalCmd")
 
                     val subCmds = expandCmd(finalCmd, mapping = { originCmd ->
                         val temp = cmdMappings.mappings.find {
