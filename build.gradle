@@ -21,7 +21,7 @@ if (localProperties.exists()) {
 
 
 group = 'com.hipoom'
-version = '1.0.8'
+version = '1.0.9'
 
 // 指定主类
 application {

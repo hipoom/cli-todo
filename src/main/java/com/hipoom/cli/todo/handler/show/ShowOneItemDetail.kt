@@ -1,16 +1,10 @@
 package com.hipoom.cli.todo.handler.show
 
-import com.hipoom.cli.core.ui.CharWidthCalculator
-import com.hipoom.cli.core.ui.TextBlockPrinter
-import com.hipoom.cli.core.ui.TextStyle
 import com.hipoom.cli.core.ui.TextStyleBuilder
-import com.hipoom.cli.core.ui.palette.Colors
 import com.hipoom.cli.todo.Configs
 import com.hipoom.cli.todo.defaultTextBlockPrinter
 import com.hipoom.cli.todo.entity.item.Item
 import com.hipoom.cli.todo.printLine
-import com.hipoom.cli.todo.utils.displayWidth
-import sun.security.tools.keytool.Main
 import java.text.SimpleDateFormat
 
 /**

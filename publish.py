@@ -77,16 +77,16 @@ def create_git_tag(version: str):
     
     print(f"Created git tag: {tag_name}")
     
-    result = subprocess.run(
-        ['git', 'push', 'origin', tag_name],
-        cwd=Path(__file__).parent,
-        capture_output=True,
-        text=True
-    )
-    if result.returncode != 0:
-        raise RuntimeError(f"Failed to push git tag: {result.stderr}")
-    
-    print(f"Pushed git tag to origin: {tag_name}")
+    # result = subprocess.run(
+    #     ['git', 'push', 'origin', tag_name],
+    #     cwd=Path(__file__).parent,
+    #     capture_output=True,
+    #     text=True
+    # )
+    # if result.returncode != 0:
+    #     raise RuntimeError(f"Failed to push git tag: {result.stderr}")
+    #
+    # print(f"Pushed git tag to origin: {tag_name}")
 
 
 def generate_version_json(output_path: str, version: str, version_code: int, release_notes: str):

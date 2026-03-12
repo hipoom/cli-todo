@@ -1,7 +1,7 @@
 {
-  "version": "1.0.8",
-  "versionCode": 10008,
-  "releaseDate": "2026-03-11",
-  "downloadUrl": "https://github.com/hipoom/cli-todo/releases/download/v1.0.8/todo.jar",
-  "releaseNotes": "修复很多问题"
+  "version": "1.0.9",
+  "versionCode": 10009,
+  "releaseDate": "2026-03-13",
+  "downloadUrl": "https://github.com/hipoom/cli-todo/releases/download/v1.0.9/todo.jar",
+  "releaseNotes": "add cmd-prefix cmd"
 }

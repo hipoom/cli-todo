@@ -10,9 +10,6 @@ import com.hipoom.cli.workspace.WorkspaceContext
 import com.hipoom.cli.workspace.WorkspaceDataRepository
 import com.hipoom.files.child
 import com.hipoom.files.createNewFileIfNotExist
-import com.hipoom.holder.Holder
-import com.sun.corba.se.spi.orbutil.threadpool.Work
-import com.sun.org.apache.xpath.internal.operations.Bool
 
 
 fun WorkspaceContext.itemDao(): ItemDao {
