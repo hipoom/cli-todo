@@ -1,0 +1,9 @@
+- [x] CmdPrefixHandler 正确处理 --set 选项并设置前缀
+- [x] CmdPrefixHandler 正确处理 --clear 选项并清除前缀
+- [x] CmdPrefixHandler 在无选项时正确显示当前前缀
+- [x] 全局变量正确存储当前前缀设置
+- [x] TodoShellHandler 在用户输入时正确读取前缀设置
+- [x] TodoShellHandler 正确实现自动填充前缀逻辑
+- [x] 当用户输入已是完整命令时，不会重复添加前缀
+- [x] 按下方向键时正确临时取消前缀自动填充
+- [x] shell 模式的提示信息正确显示当前前缀状态

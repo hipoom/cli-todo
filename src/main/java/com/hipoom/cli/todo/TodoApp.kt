@@ -14,6 +14,7 @@ import com.hipoom.cli.todo.entity.item.last_modify_item_id
 import com.hipoom.cli.todo.handler.add.AddHandler
 import com.hipoom.cli.todo.handler.CommentHandler
 import com.hipoom.cli.todo.handler.TodoShellHandler
+import com.hipoom.cli.todo.handler.cmdprefix.CmdPrefixHandler
 import com.hipoom.cli.todo.handler.collapse.CollapseHandler
 import com.hipoom.cli.todo.handler.delete.DeleteHandler
 import com.hipoom.cli.todo.handler.detail.DetailHandler
@@ -99,6 +100,7 @@ class TodoApp: CliApp() {
             DevelopHandler(),
             FindHandler(),
             UpgradeHandler(),
+            CmdPrefixHandler(),
 
             PluginHandler()
         )

@@ -19,6 +19,8 @@ val gson: Gson = GsonBuilder()
 
 lateinit var reader: LineReader
 
+var currentCmdPrefix: String? = null
+
 
 fun printLine(msg: Any? = null, newLine: Boolean = true) {
     if (msg == null) {

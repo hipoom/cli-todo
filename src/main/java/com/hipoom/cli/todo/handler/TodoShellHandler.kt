@@ -5,6 +5,7 @@ import com.hipoom.cli.scaffold.CliApp
 import com.hipoom.cli.scaffold.handler.AbsHandler
 import com.hipoom.cli.scaffold.handler.ApacheCliOptionHandler
 import com.hipoom.cli.scaffold.handler.cmdMappings
+import com.hipoom.cli.todo.currentCmdPrefix
 import com.hipoom.cli.todo.defaultTextBlockPrinter
 import com.hipoom.cli.todo.entity.item.last_modify_item_id
 import com.hipoom.cli.todo.readLineWithPrompt
@@ -20,10 +21,13 @@ import com.hipoom.cli.todo.processData
 import com.hipoom.cli.todo.reader
 import com.hipoom.cli.todo.setFocusId
 import com.hipoom.cli.workspace.WorkspaceContext
+import org.jline.keymap.KeyMap
 import org.jline.reader.EndOfFileException
 import org.jline.reader.LineReader
 import org.jline.reader.LineReaderBuilder
+import org.jline.reader.Reference
 import org.jline.reader.UserInterruptException
+import org.jline.reader.Widget
 import org.jline.reader.impl.completer.StringsCompleter
 import org.jline.reader.impl.history.DefaultHistory
 import org.jline.terminal.Terminal
@@ -48,9 +52,14 @@ class TodoShellHandler: AbsHandler() {
 
     /**
      * 每一行前面的前缀委托。
-     * 就是 “$workpsace>” 这个前缀。
+     * 就是 "$workpsace>" 这个前缀。
      */
     private var prefixDelegate: ((WorkspaceContext)->String?)? = null
+    
+    /**
+     * 是否跳过当前输入的前缀自动填充
+     */
+    private var skipPrefixForCurrentInput = false
 
 
 
@@ -143,18 +152,51 @@ class TodoShellHandler: AbsHandler() {
                 .completer(completer)
                 .build()
 
+            reader.widgets["skip-prefix-widget"] = Widget {
+                skipPrefixForCurrentInput = true
+                true
+            }
+
+            // 绑定 Ctrl+B 来临时取消前缀自动填充
+            val keyMaps = reader.keyMaps
+            val mainKeyMap = keyMaps.get(LineReader.MAIN)
+            if (mainKeyMap != null) {
+                mainKeyMap.bind(
+                    Reference("skip-prefix-widget"),
+                    KeyMap.ctrl('B')
+                )
+            }
+
             // 设置历史文件（可选）
             // (reader.history as DefaultHistory).setHistoryFile(File("${System.getProperty("user.home")}/.cli_history"))
 
             var needContinue = true
+            
             while (needContinue) {
-                val prefix = prefixDelegate?.invoke(ws) ?: "${ws.workspaceAlias}> "
+                val basePrefix = prefixDelegate?.invoke(ws) ?: "${ws.workspaceAlias}> "
+                val prefix = if (currentCmdPrefix != null && !skipPrefixForCurrentInput) {
+                    "$basePrefix${currentCmdPrefix} "
+                } else {
+                    basePrefix
+                }
 
                 try {
-                    // 读取命令，支持上键历史
+                    skipPrefixForCurrentInput = false
+                    
                     val cmd = reader.readLine(prefix).trim()
+                    
+                    var finalCmd = cmd
+                    if (currentCmdPrefix != null && cmd.isNotEmpty()) {
+                        val firstWord = cmd.split("\\s+".toRegex()).firstOrNull() ?: ""
+                        val isCompleteCommand = commands.contains(firstWord) || 
+                            cmdMappings.mappings.any { it.quick == firstWord }
+                        
+                        if (!isCompleteCommand) {
+                            finalCmd = "$currentCmdPrefix $cmd"
+                        }
+                    }
 
-                    val subCmds = expandCmd(cmd, mapping = { originCmd ->
+                    val subCmds = expandCmd(finalCmd, mapping = { originCmd ->
                         val temp = cmdMappings.mappings.find {
                             it.quick == originCmd
                         }?.origin ?: originCmd
