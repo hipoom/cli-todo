@@ -1,6 +1,6 @@
 package com.hipoom.cli.todo
 
-const val VERSION_NAME = "1.0.11"
+const val VERSION_NAME = "1.0.12"
 
 val VERSION_CODE: Long
     get() {

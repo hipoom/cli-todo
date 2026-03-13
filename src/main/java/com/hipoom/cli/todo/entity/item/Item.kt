@@ -60,6 +60,9 @@ class Item {
     @SerializedName("isNotified")
     var isNotified: Boolean? = null
 
+    @SerializedName("order")
+    var order: Int? = null
+
 
     companion object {
         const val STATUS_NEW     = "new"
@@ -212,7 +215,8 @@ fun Item.copy(
     labels: MutableList<String>? = this.labels?.toMutableList(),
     comments: MutableList<String>? = this.comments?.toMutableList(),
     needHide: Boolean? = this.needHide,
-    children: MutableList<Item>? = this.children?.map { it.copy() }?.toMutableList()
+    children: MutableList<Item>? = this.children?.map { it.copy() }?.toMutableList(),
+    order: Int? = this.order
 ): Item {
     val newItem = Item()
     newItem.id = id
@@ -226,6 +230,7 @@ fun Item.copy(
     newItem.comments = comments
     newItem.needHide = needHide
     newItem.children = children
+    newItem.order = order
     return newItem
 }
 

@@ -34,6 +34,7 @@ import com.hipoom.cli.todo.handler.owner.OwnerHandler
 import com.hipoom.cli.todo.handler.pin.PinHandler
 import com.hipoom.cli.todo.handler.window.WindowHandler
 import com.hipoom.cli.todo.handler.show.ShowHandler
+import com.hipoom.cli.todo.handler.sort.SortHandler
 import com.hipoom.cli.todo.handler.style.StyleHandler
 import com.hipoom.cli.todo.handler.style.StyleInitializer
 import com.hipoom.cli.todo.handler.textmapping.TextMappingHandler
@@ -96,6 +97,7 @@ class TodoApp: CliApp() {
             PinHandler(),
             ViewHandler(),
             StyleHandler(),
+            SortHandler(),
             TextMappingHandler(),
             DevelopHandler(),
             FindHandler(),

@@ -12,8 +12,8 @@ val styleOptions: Options = Options()
     )
     .addOption(
         Option.builder()
-            .longOpt("set")
-            .desc("Set style")
+            .longOpt("choose")
+            .desc("Choose style interactively with keyboard navigation")
             .build()
     )
     .addOption(

@@ -235,6 +235,10 @@ class ItemDao(private val filePath: String) {
 
             return@removeIf true
         }
+        
+        // 对根节点按 order 排序（order 为 null 时按 id 排序）
+        tree.sortBy { it.order ?: it.id ?: 0 }
+        
         return tree
     }
 
@@ -448,6 +452,127 @@ class ItemDao(private val filePath: String) {
         last_modify_item_id = id
     }
 
+    /**
+     * 将指定事项向上移动一位（与上一个兄弟交换 order 值）
+     * 如果已经是第一个，则不做任何操作
+     */
+    fun sortMoveUp(id: Int) {
+        val table = load(needBuildTree = true)
+        val current = table.items?.find { it.id == id } ?: return
+        val parentId = current.getFirstParentIdOrNull()
+
+        val brothers = if (parentId == null) {
+            table.items?.filter { it.parentIds.isNullOrEmpty() } ?: emptyList()
+        } else {
+            table.items?.filter { it.parentIds?.contains(parentId) == true } ?: emptyList()
+        }
+
+        printLine("调试: id=$id, parentId=$parentId, brothers=${brothers.map { it.id }}")
+        
+        val sortedBrothers = brothers.sortedBy { it.order ?: it.id ?: 0 }
+        printLine("调试: sortedBrothers=${sortedBrothers.map { "${it.id}(order=${it.order})" }}")
+        
+        // 如果兄弟节点的 order 都是 null，先按排序顺序分配 order 值
+        if (sortedBrothers.all { it.order == null }) {
+            printLine("调试: 所有 order 都是 null，分配初始值")
+            sortedBrothers.forEachIndexed { index, item ->
+                item.order = index
+            }
+        }
+        
+        val currentIndex = sortedBrothers.indexOfFirst { it.id == id }
+        printLine("调试: currentIndex=$currentIndex")
+        if (currentIndex <= 0) return
+
+        val prevBrother = sortedBrothers[currentIndex - 1]
+        val tempOrder = current.order
+        current.order = prevBrother.order
+        prevBrother.order = tempOrder
+        
+        printLine("调试: 交换后 current.order=${current.order}, prevBrother.order=${prevBrother.order}")
+
+        store(table)
+        last_modify_item_id = id
+    }
+
+    /**
+     * 将指定事项向下移动一位（与下一个兄弟交换 order 值）
+     * 如果已经是最后一个，则不做任何操作
+     */
+    fun sortMoveDown(id: Int) {
+        val table = load(needBuildTree = true)
+        val current = table.items?.find { it.id == id } ?: return
+        val parentId = current.getFirstParentIdOrNull()
+
+        val brothers = if (parentId == null) {
+            table.items?.filter { it.parentIds.isNullOrEmpty() } ?: emptyList()
+        } else {
+            table.items?.filter { it.parentIds?.contains(parentId) == true } ?: emptyList()
+        }
+
+        val sortedBrothers = brothers.sortedBy { it.order ?: it.id ?: 0 }
+        
+        // 如果兄弟节点的 order 都是 null，先按排序顺序分配 order 值
+        if (sortedBrothers.all { it.order == null }) {
+            sortedBrothers.forEachIndexed { index, item ->
+                item.order = index
+            }
+        }
+        
+        val currentIndex = sortedBrothers.indexOfFirst { it.id == id }
+        if (currentIndex < 0 || currentIndex >= sortedBrothers.size - 1) return
+
+        val nextBrother = sortedBrothers[currentIndex + 1]
+        val tempOrder = current.order
+        current.order = nextBrother.order
+        nextBrother.order = tempOrder
+
+        store(table)
+        last_modify_item_id = id
+    }
+
+    /**
+     * 将指定事项移动到同级事项的最前面
+     */
+    fun sortMoveToTop(id: Int) {
+        val table = load(needBuildTree = true)
+        val current = table.items?.find { it.id == id } ?: return
+        val parentId = current.getFirstParentIdOrNull()
+
+        val brothers = if (parentId == null) {
+            table.items?.filter { it.parentIds.isNullOrEmpty() } ?: emptyList()
+        } else {
+            table.items?.filter { it.parentIds?.contains(parentId) == true } ?: emptyList()
+        }
+
+        val minOrder = brothers.minOfOrNull { it.order ?: it.id ?: 0 } ?: 0
+        current.order = minOrder - 1
+
+        store(table)
+        last_modify_item_id = id
+    }
+
+    /**
+     * 将指定事项移动到同级事项的最后面
+     */
+    fun sortMoveToBottom(id: Int) {
+        val table = load(needBuildTree = true)
+        val current = table.items?.find { it.id == id } ?: return
+        val parentId = current.getFirstParentIdOrNull()
+
+        val brothers = if (parentId == null) {
+            table.items?.filter { it.parentIds.isNullOrEmpty() } ?: emptyList()
+        } else {
+            table.items?.filter { it.parentIds?.contains(parentId) == true } ?: emptyList()
+        }
+
+        val maxOrder = brothers.maxOfOrNull { it.order ?: it.id ?: 0 } ?: 0
+        current.order = maxOrder + 1
+
+        store(table)
+        last_modify_item_id = id
+    }
+
 
 
     /* ======================================================= */
@@ -516,6 +641,11 @@ class ItemDao(private val filePath: String) {
             }?.forEach { parent ->
                 parent.addChild(item)
             }
+        }
+
+        // 对每个节点的 children 按 order 排序（order 为 null 时按 id 排序）
+        items.forEach { item ->
+            item.children?.sortBy { it.order ?: it.id ?: 0 }
         }
 
         return result
