@@ -9,6 +9,7 @@ import com.hipoom.cli.todo.storeCurrentConfigs
 import com.hipoom.cli.workspace.WorkspaceContext
 import org.apache.commons.cli.CommandLine
 
+import com.hipoom.cli.todo.handler.style.actions.listStyles
 import com.hipoom.cli.todo.handler.style.actions.setStyle
 
 class StyleHandler : ApacheCliOptionHandler() {
@@ -37,6 +38,11 @@ class StyleHandler : ApacheCliOptionHandler() {
     ): Boolean {
         if (commandLine.hasOption("h")) {
             printHelp()
+            return true
+        }
+
+        if (commandLine.hasOption("list")) {
+            listStyles(app)
             return true
         }
         

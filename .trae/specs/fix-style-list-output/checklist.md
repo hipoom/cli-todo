@@ -1,0 +1,6 @@
+- [x] `list.kt` 中实现了 `listStyles(app: CliApp)` 函数
+- [x] `listStyles()` 函数能正确加载并显示所有配色方案
+- [x] `StyleHandler.onHandle()` 正确处理 `--list` 选项
+- [x] 执行 `todo style --list` 能正确显示配色方案列表
+- [x] 执行 `todo style -l` 能正确显示配色方案列表
+- [x] 当前使用的配色方案被正确标记
