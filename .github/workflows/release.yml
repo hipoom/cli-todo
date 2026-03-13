@@ -35,12 +35,13 @@ jobs:
         id: get_version
         run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
 
-      - name: Find JAR file
+      - name: Find and rename JAR file
         id: find_jar
         run: |
           JAR_FILE=$(find build/libs -name "*.jar" -type f | head -n 1)
-          echo "JAR_PATH=$JAR_FILE" >> $GITHUB_OUTPUT
-          echo "JAR_NAME=$(basename $JAR_FILE)" >> $GITHUB_OUTPUT
+          cp "$JAR_FILE" build/libs/todo.jar
+          echo "JAR_PATH=build/libs/todo.jar" >> $GITHUB_OUTPUT
+          echo "JAR_NAME=todo.jar" >> $GITHUB_OUTPUT
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
