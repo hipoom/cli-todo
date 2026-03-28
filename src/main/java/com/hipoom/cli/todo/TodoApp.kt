@@ -32,6 +32,7 @@ import com.hipoom.cli.todo.handler.path.PathHandler
 import com.hipoom.cli.todo.handler.time.TimeHandler
 import com.hipoom.cli.todo.handler.owner.OwnerHandler
 import com.hipoom.cli.todo.handler.pin.PinHandler
+import com.hipoom.cli.todo.handler.screen.ScreenHandler
 import com.hipoom.cli.todo.handler.window.WindowHandler
 import com.hipoom.cli.todo.handler.show.ShowHandler
 import com.hipoom.cli.todo.handler.sort.SortHandler
@@ -95,6 +96,7 @@ class TodoApp: CliApp() {
             TimeHandler(),
             OwnerHandler(),
             PinHandler(),
+            ScreenHandler(),
             ViewHandler(),
             StyleHandler(),
             SortHandler(),

@@ -211,11 +211,27 @@ object Show {
         return Colors.Bits24.createForeground(splits[0], splits[1], splits[2])
     }
 
+    /**
+     * 获取当前样式名称
+     * @deprecated 请使用 StyleStorage.loadAll(app).currentStyleName 或 ConfigManager
+     */
+    @Deprecated(
+        message = "请使用 StyleStorage.loadAll(app).currentStyleName 获取当前样式名称",
+        replaceWith = ReplaceWith("StyleStorage.loadAll(app).currentStyleName", "com.hipoom.cli.todo.handler.style.persistent.StyleStorage")
+    )
     fun getCurrentStyle(): String? {
         val style = show.getString("currentStyle", "")
         return if (style.isEmpty()) null else style
     }
 
+    /**
+     * 设置当前样式名称
+     * @deprecated 请使用 StyleStorage 或 ConfigManager
+     */
+    @Deprecated(
+        message = "请使用 StyleStorage 或 ConfigManager 设置当前样式名称",
+        replaceWith = ReplaceWith("// 请迁移到新的配置系统", "")
+    )
     fun setCurrentStyle(styleName: String) {
         var config = show.configs?.find { it.name == "currentStyle" }
         if (config == null) {

@@ -4,6 +4,7 @@ import com.hipoom.cli.core.ui.CharWidthCalculator
 import com.hipoom.cli.core.ui.TextBlockPrinter
 import com.hipoom.cli.core.ui.TextStyle
 import com.hipoom.cli.todo.Main
+import com.hipoom.cli.todo.app
 import com.hipoom.cli.todo.defaultTextBlockPrinter
 import com.hipoom.cli.todo.printLine
 import com.hipoom.cli.todo.utils.displayWidth
@@ -17,7 +18,8 @@ object StyleInitializer {
 
     fun doInit() {
         // 检查是否已经有保存的样式配置
-        val currentStyleName = com.hipoom.cli.todo.Configs.show.getCurrentStyle()
+        val styleConfigs = com.hipoom.cli.todo.handler.style.persistent.StyleStorage.loadAll(app)
+        val currentStyleName = styleConfigs.currentStyleName
         
         if (currentStyleName != null) {
             // 已经有保存的样式，不需要重新选择

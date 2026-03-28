@@ -40,10 +40,26 @@ fun WorkspaceContext.findTemplateWithAlias(alias: String): TemplateVO? {
     return templates().templates.find { it.alias == alias }
 }
 
+/**
+ * 获取当前样式名称
+ * @deprecated 请使用 StyleStorage.loadAll(app).currentStyleName 或 ConfigManager
+ */
+@Deprecated(
+    message = "请使用 StyleStorage.loadAll(app).currentStyleName 获取当前样式名称",
+    replaceWith = ReplaceWith("StyleStorage.loadAll(app).currentStyleName", "com.hipoom.cli.todo.handler.style.persistent.StyleStorage")
+)
 fun WorkspaceContext.getCurrentStyleName(): String? {
     return getValueFromDataRepository("current_style")
 }
 
+/**
+ * 设置当前样式名称
+ * @deprecated 请使用 StyleStorage 或 ConfigManager
+ */
+@Deprecated(
+    message = "请使用 StyleStorage 或 ConfigManager 设置当前样式名称",
+    replaceWith = ReplaceWith("// 请迁移到新的配置系统", "")
+)
 fun WorkspaceContext.setCurrentStyleName(styleName: String) {
     setValueIntoDataRepository("current_style", styleName)
 }

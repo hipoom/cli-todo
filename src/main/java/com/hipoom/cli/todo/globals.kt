@@ -7,7 +7,6 @@ import com.hipoom.cli.core.ui.TextBlockPrinter
 import com.hipoom.cli.core.ui.TextStyle
 import com.hipoom.cli.core.ui.TextStyleBuilder
 import com.hipoom.cli.core.ui.palette.Colors
-import com.hipoom.cli.todo.entity.item.last_modify_item_id
 import com.hipoom.cli.todo.handler.style.Styles
 import com.hipoom.cli.todo.utils.displayWidth
 import org.jline.reader.LineReader
@@ -45,6 +44,14 @@ fun printSuccess(msg: String) {
 
 fun readLineWithPrompt(prompt: String? = null): String? {
     return reader.readLine(prompt)
+}
+
+fun cleanScreen() {
+    print("\u001b[2J")
+}
+
+fun moveCursorToStart() {
+    print("\u001b[H")
 }
 
 fun TextBlockPrinter.printLine(indent: Int = 0, text: String, maxWidth: Int = Int.MAX_VALUE, style: TextStyle? = null) {
