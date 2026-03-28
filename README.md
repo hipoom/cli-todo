@@ -228,22 +228,56 @@ show --disable-show-on-launch # 启动时不显示任务列表
 
 ## 8. 样式自定义
 
-### 8.1 查看当前样式
+### 8.1 列出所有配色方案
 
 ```bash
-style
+style --list
+# 或简写
+style -l
 ```
 
-### 8.2 自定义样式
+### 8.2 交互式选择配色方案
 
 ```bash
-style set <样式名称> <颜色值>
+style --choose
 ```
 
-例如：
+执行后会显示所有可选的配色方案列表，当前使用的方案会显示 `✓` 标识。输入序号即可选择。
+
+### 8.3 创建新配色方案
 
 ```bash
-style set new #FF0000
+style --create
+# 或简写
+style -c
+```
+
+执行后会进入交互式创建流程：
+1. 选择一个现有方案作为基础
+2. 逐步选择是否修改各项颜色（置顶文字/背景、备注文字/背景等）
+3. 预览效果后选择是否保存
+4. 可选择是否立即使用新方案
+
+### 8.4 删除配色方案
+
+```bash
+style --delete <方案名称>
+# 或简写
+style -d <方案名称>
+```
+
+### 8.5 查看配色方案详情
+
+```bash
+style --detail <方案名称>
+```
+
+### 8.6 编辑配色方案
+
+```bash
+style --edit <方案名称>
+# 或简写
+style -e <方案名称>
 ```
 
 ## 9. 命令速查表
@@ -263,7 +297,7 @@ style set new #FF0000
 | `workspace` | 管理工作区 | `workspace create project` |
 | `view` | 管理虚拟视图 | `view create important` |
 | `label` | 管理标签 | `label add -i 1 -l urgent` |
-| `style` | 自定义样式 | `style set new #FF0000` |
+| `style` | 配色方案管理 | `style --list` 或 `style --choose` |
 
 ## 10. 最佳实践
 

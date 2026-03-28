@@ -28,6 +28,7 @@ import com.hipoom.cli.todo.handler.developer.DevelopHandler
 import com.hipoom.cli.todo.handler.expand.ExpandHandler
 import com.hipoom.cli.todo.handler.find.FindHandler
 import com.hipoom.cli.todo.handler.label.LabelHandler
+import com.hipoom.cli.todo.handler.mapping.MappingHandler
 import com.hipoom.cli.todo.handler.path.PathHandler
 import com.hipoom.cli.todo.handler.time.TimeHandler
 import com.hipoom.cli.todo.handler.owner.OwnerHandler
@@ -74,7 +75,6 @@ class TodoApp: CliApp() {
             TodoShellHandler(),
             HelpHandler(),
             WorkspaceHandler(),
-            QuickCmdHandler(),
 
             AddHandler(),
             ShowHandler(),
@@ -92,6 +92,7 @@ class TodoApp: CliApp() {
             CollapseHandler(),
             ExpandHandler(),
             LabelHandler(),
+            MappingHandler(),
             PathHandler(),
             TimeHandler(),
             OwnerHandler(),
